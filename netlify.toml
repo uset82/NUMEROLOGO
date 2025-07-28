@@ -1,7 +1,7 @@
-﻿[build]
-  base = "MCP/"
-  command = "npm run build"
-  publish = "MCP/out"
-
-[build.environment]
-  NODE_VERSION = "18"
+[build] 
+  base = MCP 
+  command = npm run build 
+  publish = MCP/out 
+ 
+[build.environment] 
+  NODE_VERSION = 18
