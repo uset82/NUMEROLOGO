@@ -10,7 +10,7 @@ export default function Home() {
         </h1>
         <p className="text-xl text-gray-600 max-w-3xl mx-auto px-4">
           Desbloquea los significados ocultos en tu nombre y fecha de nacimiento a través de la sabiduría ancestral de la numerología. 
-          Obtén conocimientos personalizados sobre tu personalidad, camino de vida y destino.
+          Obtén conocimientos personalizados sobre tu personalidad, camino de vida y destino con nuestro avanzado sistema del Pináculo.
         </p>
       </div>
 
@@ -46,11 +46,11 @@ export default function Home() {
             </div>
             <div className="p-6">
               <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🌟</span>
+                <span className="text-2xl">�</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Propósito del Alma</h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Diagrama del Pináculo</h3>
               <p className="text-gray-600">
-                Descubre tu Número del Alma para entender tus deseos más profundos y motivaciones.
+                Visualiza tu mapa numerológico completo con nuestro sistema avanzado del Pináculo que analiza 23 aspectos diferentes de tu personalidad.
               </p>
             </div>
           </div>

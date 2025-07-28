@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { useClientOnly } from '@/utils/clientOnly'
 import { numerologyLogicAgent } from '@/agents/numerology-logic'
 import type { NumerologyReport } from '@/agents/numerology-logic'
+import PinaculoDiagram from './PinaculoDiagram'
 
 export function NumerologyCalculator() {
   const [name, setName] = useState('')
@@ -75,9 +76,6 @@ export function NumerologyCalculator() {
           </h1>
           <p className="text-xl text-purple-700">
             Sistema del Pináculo - Cálculos Exactos
-          </p>
-          <p className="text-purple-600 mt-2">
-            Basado en las fórmulas exactas de numerología-cotidiana.com
           </p>
         </div>
 
@@ -273,6 +271,20 @@ export function NumerologyCalculator() {
                   </div>
                 ))}
               </div>
+            </div>
+
+            {/* Pináculo Diagram Visualization */}
+            <div className="numerology-card">
+              <h2 className="text-2xl font-bold text-purple-900 mb-6">🎭 DIAGRAMA DEL PINÁCULO</h2>
+              <p className="text-gray-600 mb-4">
+                Visualización interactiva de tu mapa numerológico basado en tu fecha de nacimiento.
+              </p>
+              <PinaculoDiagram 
+                birthDay={parseInt(birthDate.split('/')[0])}
+                birthMonth={parseInt(birthDate.split('/')[1])}
+                birthYear={parseInt(birthDate.split('/')[2])}
+                name={name}
+              />
             </div>
 
             {/* Disclaimer */}

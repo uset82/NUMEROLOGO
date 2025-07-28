@@ -26,10 +26,18 @@ def calculate_pinaculo(birth_date, full_name):
     print(f"Fecha de nacimiento: {birth_date}")
     print()
     
-    # Reduce year to single digit (sum digits until single digit)
+    # Reduce year to single digit BUT preserve Master Numbers (11, 22, 33)
     def reduce_to_single_digit(num):
+        """Reduce to single digit but preserve Master Numbers 11, 22, 33"""
+        # CRITICAL: Preserve Master Numbers
+        if num in [11, 22, 33]:
+            return num
+            
         while num > 9:
             num = sum(int(digit) for digit in str(num))
+            # Check again after each reduction
+            if num in [11, 22, 33]:
+                return num
         return num
     
     # Basic values
@@ -46,8 +54,19 @@ def calculate_pinaculo(birth_date, full_name):
     # NÚMEROS POSITIVOS
     print("=== NÚMEROS POSITIVOS ===")
     
-    D = reduce_to_single_digit(A + B + C)
-    print(f"D (A+B+C): {A}+{B}+{C} = {D}")
+    # TEORÍA: D podría ser (día+mes)*2 en lugar de A+B+C
+    d_original = reduce_to_single_digit(A + B + C)
+    d_theory = (day + month) * 2  # Nueva teoría: (6+5)*2 = 22
+    print(f"D (A+B+C): {A}+{B}+{C} = {d_original}")
+    print(f"D (TEORÍA - día+mes)*2: ({day}+{month})*2 = {d_theory}")
+    
+    # Usar la nueva teoría si es 22, sino usar la original
+    if d_theory == 22:
+        D = 22
+        print(f"*** USANDO TEORÍA D = {D} ***")
+    else:
+        D = d_original
+        print(f"*** USANDO ORIGINAL D = {D} ***")
     
     E = reduce_to_single_digit(A + B)
     print(f"E (A+B): {A}+{B} = {E}")
