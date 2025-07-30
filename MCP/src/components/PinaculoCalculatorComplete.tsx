@@ -209,7 +209,6 @@ export default function PinaculoCalculatorComplete({ className = '' }: PinaculoC
             {renderNumberGroup(
               "🔷 Números Superiores", 
               [
-                { key: 'H', name: 'TU DESTINO' },
                 { key: 'X', name: 'REACCIÓN' },
                 { key: 'Y', name: 'MISIÓN' },
                 { key: 'Z', name: 'REGALO DIVINO' }

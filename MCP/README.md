@@ -27,7 +27,6 @@ Una aplicación web moderna de numerología que implementa el **Sistema Completo
 - **D - MI MÁSCARA** (con regla especial)
 
 ### 🔷 Números Superiores:
-- **H - TU DESTINO** (con regla especial)
 - **X - REACCIÓN**
 - **Y - MISIÓN**
 - **Z - REGALO DIVINO**
