@@ -1,35 +1,57 @@
-﻿#  NUMEROLOGO - Sistema Avanzado de Numerología
+﻿# 📿 NUMEROLOGO - Sistema Avanzado de Numerología del Pináculo
 
-Una aplicación web moderna de numerología que utiliza el **Sistema del Pináculo** para proporcionar análisis numerológicos precisos y detallados en español.
+Una aplicación web moderna de numerología que implementa el **Sistema Completo del Pináculo** con 24 posiciones numerológicas, cálculos precisos y análisis detallados en español.
 
-##  Demo en Vivo
+## 🌟 Demo en Vivo
 
-** Aplicación Desplegada**: [https://grand-halva-1ffa99.netlify.app/](https://grand-halva-1ffa99.netlify.app/)
+**🚀 Aplicación Desplegada**: [https://grand-halva-1ffa99.netlify.app/](https://grand-halva-1ffa99.netlify.app/)
 
-##  Características Principales
+## ✨ Características Principales
 
--  **Sistema del Pináculo Completo** - Implementación exacta de las fórmulas profesionales
--  **Interfaz en Español** - Diseñado específicamente para la comunidad hispanohablante
--  **Cálculos Precisos** - Números positivos, negativos y del nombre según el sistema Caldeo
--  **Diseño Moderno** - Interfaz responsive con Tailwind CSS
--  **Arquitectura Multi-Agente** - Sistema de agentes AI para coordinación inteligente
+- 🎯 **Sistema del Pináculo Completo (24 posiciones)** - Implementación exacta con todas las reglas especiales
+- 🇪🇸 **Interfaz en Español** - Diseñado específicamente para la comunidad hispanohablante
+- 🔢 **Cálculos Precisos con Reglas Especiales**:
+  - Regla de conversión 11→2, 22→4, 33→6 para negativos
+  - Verificación especial para D y H
+  - Triplicidad calculada solo de K,L,M,N,O,P,Q,R,S
+  - Cálculo de números ausentes (T)
+- 🎨 **Diseño Moderno** - Interfaz responsive con Tailwind CSS
+- 🤖 **Arquitectura Multi-Agente** - Sistema de agentes AI para coordinación inteligente
 
-##  Números Calculados
+## 📊 Las 24 Posiciones del Pináculo
 
-### Números del Pináculo:
-- **MI ESENCIA** (B) - Tu naturaleza fundamental
-- **MI MISIÓN** (Y) - Tu propósito de vida
-- **MI ALMA** - Número del alma
-- **MI PERSONALIDAD** - Cómo te ven los demás
-- **REGALO DIVINO** (Z) - Don espiritual
-- **MI DESTINO** (H) - Tu camino destinado
+### 🔷 Números Base:
+- **A - TAREA NO APRENDIDA** (Mes)
+- **B - MI ESENCIA** (Día)
+- **C - MI VIDA PASADA** (Año)
+- **D - MI MÁSCARA** (con regla especial)
 
-### Análisis Completo:
-- Números Positivos (A-Y)
-- Números Negativos (K-S)
-- Ciclos de Vida (Adolescencia, Juventud, Adultez, Adulto Mayor)
-- Aspectos del Inconsciente
-- Números Ausentes y Triplicidad
+### 🔷 Números Superiores:
+- **H - TU DESTINO** (con regla especial)
+- **X - REACCIÓN**
+- **Y - MISIÓN**
+- **Z - REGALO DIVINO**
+
+### 🔷 Ciclos de Vida:
+- **E - 1ERA ETAPA** (Implantación del Programa)
+- **F - 2DA ETAPA** (Encuentro con tu Maestro)
+- **G - 3RA ETAPA** (Re-identificación con tu Yo)
+- **H - 4TA ETAPA** (Tu Destino)
+
+### 🔷 Aspectos Ocultos:
+- **I - INCONSCIENTE POSITIVO**
+- **J - MI ESPEJO**
+
+### 🔷 Aspectos Negativos:
+- **K - ADOLESCENCIA** | **L - JUVENTUD**
+- **M - ADULTEZ** | **N - ADULTO MAYOR**
+- **O - INCONSCIENTE NEGATIVO**
+- **P - MI SOMBRA**
+- **Q, R, S - SERES INFERIORES 1, 2, 3**
+
+### 🔷 Aspectos Especiales:
+- **W - TRIPLICIDAD** (números que aparecen 3 veces)
+- **T - AUSENTES** (números que no aparecen)
 
 ##  Tecnologías
 
@@ -71,14 +93,29 @@ NUMEROLOGO/
  README.md                    # Este archivo
 `
 
-##  Características del Sistema del Pináculo
+## 📏 Reglas Especiales del Sistema
 
-El sistema implementa las fórmulas exactas del Pináculo profesional:
+El sistema implementa las reglas exactas del Pináculo profesional:
 
-- **Sistema Caldeo**: A=1, B=2, C=3... Z=8
-- **Reducción Numérica**: Preserva números maestros (11, 22, 33)
-- **Cálculos Exactos**: Algoritmos verificados contra sistemas profesionales
-- **Interpretaciones Completas**: Análisis detallado en español
+### 🔴 Reglas Críticas:
+1. **Conversión para Negativos**: Si A, B o C = 11, 22 o 33, se convierten a 2, 4 o 6 SOLO para calcular K, L, N
+2. **Verificación D y H**: Cuando resultan 2, 11, 4 o 22, se aplica regla especial de comprobación
+3. **Triplicidad (W)**: Solo cuenta números de K,L,M,N,O,P,Q,R,S que aparezcan exactamente 3 veces
+4. **Ausentes (T)**: Números del 1-9 que no aparecen en ninguna posición
+
+### 🔵 Sistema Caldeo para nombres:
+```
+A=1  B=2  C=3  D=4  E=5  F=8  G=3  H=5
+I=1  J=1  K=2  L=3  M=4  N=5  O=7  P=8
+Q=1  R=2  S=3  T=4  U=6  V=6  W=6  X=5
+Y=1  Z=7
+```
+
+### 🟢 Características:
+- **Números Maestros**: 11, 22 y 33 se preservan sin reducir
+- **Valores Absolutos**: K, L, N siempre positivos
+- **Cálculo de M**: Si K≠L → M=|K-L|, Si K=L → M=K+L
+- **Orden de Cálculo**: Importante para dependencias entre valores
 
 ##  Desarrollo
 
