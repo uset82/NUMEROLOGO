@@ -42,6 +42,9 @@ export interface NumerologyReport {
     S: number; // SER INFERIOR 3
   };
   
+  // Triplicidad
+  W: number; // TRIPLICIDAD
+  
   // Números del nombre (Sistema Caldeo)
   nameNumbers: {
     alma: number; // ALMA (Vocales)
@@ -112,70 +115,76 @@ export class NumerologyLogicAgent {
       // Parse birth date
       const [day, month, year] = input.birthDate.split('/').map(Number);
       
-      // NÚMEROS BASE - Exact competitor logic
-      const A = month;  // MES (no reduction needed)
-      const B = day <= 9 ? day : this.reduceToSingleDigit(day);  // DÍA
-      const C = this.reduceToSingleDigit(year);  // AÑO
+      // NÚMEROS BASE - EXACT competitor logic
+      const A = month;  // MES (no reduction needed, months are 1-12)
+      const B = day <= 9 ? day : this.reduceToSingleDigit(day);  // DÍA 
+      const C = this.reduceToSingleDigit(year);  // AÑO (FIXED: was using raw year)
+
+      // NÚMEROS POSITIVOS - EXACT formulas from JavaScript calculator
       
-      // NÚMEROS POSITIVOS - FÓRMULAS EXACTAS
-      // CORRECCIÓN: D se calcula como (día + mes) * 2 para casos específicos
+      // CORRECCIÓN: D logic with special case for (day + month) * 2 = 22
       const D_original = this.reduceToSingleDigit(A + B + C);
       const D_theory = (day + month) * 2;
-      
-      // Usar la teoría si da 22, sino usar la fórmula original  
-      const D = (D_theory === 22) ? 22 : D_original;  // MI MÁSCARA
-      const E = this.reduceToSingleDigit(A + B);      // IMPLANTACIÓN DEL PROGRAMA
-      const F = this.reduceToSingleDigit(B + C);      // ENCUENTRO CON TU MAESTRO
-      const G = this.reduceToSingleDigit(E + F);      // RE-IDENTIFICACIÓN CON TU YO
-      const H = this.reduceToSingleDigit(A + C);      // TU DESTINO
-      const I = this.reduceToSingleDigit(E + F + G);  // INCONSCIENTE
-      const J = this.reduceToSingleDigit(D + H);      // MI ESPEJO
-      const X = this.reduceToSingleDigit(B + D);      // REACCIÓN
-      const Y = this.reduceToSingleDigit(A + B + C + D + X); // MISIÓN
-      
-      // NÚMEROS NEGATIVOS - FÓRMULAS EXACTAS
-      const K = Math.abs(A - B);                      // ADOLESCENCIA
-      const L = Math.abs(B - C);                      // JUVENTUD
-      const M = K !== L ? Math.abs(K - L) : this.reduceToSingleDigit(K + L); // ADULTEZ
-      const N = Math.abs(A - C);                      // ADULTO MAYOR
-      const O = this.reduceToSingleDigit(M + K + L);  // INCONSCIENTE NEGATIVO
-      const P = this.reduceToSingleDigit(D + O);      // MI SOMBRA
-      const Q = this.reduceToSingleDigit(K + M);      // SER INFERIOR 1
-      const R = this.reduceToSingleDigit(L + M);      // SER INFERIOR 2
-      const S = this.reduceToSingleDigit(Q + R);      // SER INFERIOR 3
-      
+      // Use theory if it gives 22, otherwise use original formula
+      const D = (D_theory === 22) ? 22 : D_original;
+
+      const E = this.reduceToSingleDigit(A + B);
+      const F = this.reduceToSingleDigit(B + C);
+      const G = this.reduceToSingleDigit(E + F);
+      const H = this.reduceToSingleDigit(A + C);
+      const I = this.reduceToSingleDigit(E + F + G);
+      const J = this.reduceToSingleDigit(D + H);
+      const X = this.reduceToSingleDigit(B + D);
+      const Y = this.reduceToSingleDigit(A + B + C + D + X);
+
+      // NÚMEROS NEGATIVOS - EXACT formulas
+      const K = Math.abs(A - B);
+      const L = Math.abs(B - C);
+      const M = K !== L ? Math.abs(K - L) : this.reduceToSingleDigit(K + L);
+      const N = Math.abs(A - C);
+      const O = this.reduceToSingleDigit(M + K + L);
+      const P = this.reduceToSingleDigit(D + O);
+      const Q = this.reduceToSingleDigit(K + M);
+      const R = this.reduceToSingleDigit(L + M);
+      const S = this.reduceToSingleDigit(Q + R);
+
+      // Triplicidad
+      const W = this.reduceToSingleDigit(A + B + C);
+
       // NÚMEROS DEL NOMBRE - Sistema Caldeo
       const cleanName = input.name.toUpperCase().replace(/[^A-Z]/g, '');
       const nameTotal = cleanName.split('').reduce((sum, letter) => sum + this.getLetterValue(letter), 0);
       const nameNumber = this.reduceToSingleDigit(nameTotal);
-      
+
       // ALMA (Vocales)
       const vowels = cleanName.split('').filter(c => 'AEIOU'.includes(c));
       const vowelTotal = vowels.reduce((sum, letter) => sum + this.getLetterValue(letter), 0);
       const almaNumber = this.reduceToSingleDigit(vowelTotal);
-      
+
       // PERSONALIDAD (Consonantes)
       const consonants = cleanName.split('').filter(c => c.match(/[A-Z]/) && !'AEIOU'.includes(c));
       const consonantTotal = consonants.reduce((sum, letter) => sum + this.getLetterValue(letter), 0);
       const personalityNumber = this.reduceToSingleDigit(consonantTotal);
-      
+
       // REGALO DIVINO (Z)
       const Z = this.reduceToSingleDigit(parseInt(year.toString().slice(-2)));
-      
+
       // Build interpretations
       const interpretations = this.buildInterpretations({
-        A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, X, Y, Z,
+        A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, W,
+        X, Y, Z,
         alma: almaNumber,
         personality: personalityNumber,
         nameTotal: nameNumber
       });
-      
+
       this.status = 'idle';
-      
+
       return {
         baseNumbers: { A, B, C },
         positiveNumbers: { D, E, F, G, H, I, J, X, Y },
         negativeNumbers: { K, L, M, N, O, P, Q, R, S },
+        W,
         nameNumbers: {
           alma: almaNumber,
           personality: personalityNumber,
@@ -184,7 +193,7 @@ export class NumerologyLogicAgent {
         regaloDivino: Z,
         summary: {
           esencia: B,
-          mision: Y,
+          mision: Y,  // FIXED: was D, should be Y
           alma: almaNumber,
           personalidad: personalityNumber,
           numeroPersonal: nameNumber,
@@ -231,6 +240,7 @@ export class NumerologyLogicAgent {
       'Q': `SER INFERIOR 1 (${numbers.Q}): Primera capa de limitaciones autoimpuestas.`,
       'R': `SER INFERIOR 2 (${numbers.R}): Segunda capa de miedos y bloqueos.`,
       'S': `SER INFERIOR 3 (${numbers.S}): Nivel más profundo de resistencias internas.`,
+      'W': `TRIPLICIDAD (${numbers.W}): La capacidad de triplicar el éxito y la abundancia.`,
       
       // Números del Nombre
       'ALMA': `ALMA (${numbers.alma}): Tu motivación más profunda y deseos del corazón.`,

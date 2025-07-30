@@ -1,4 +1,5 @@
 import { NumerologyCalculator } from '@/components/NumerologyCalculator'
+import PinaculoCalculatorComplete from '@/components/PinaculoCalculatorComplete'
 
 export default function Home() {
   return (
@@ -15,10 +16,15 @@ export default function Home() {
       </div>
 
       {/* Main Calculator */}
-      <div className="max-w-2xl mx-auto px-4 pb-16">
+      <div className="max-w-2xl mx-auto px-4 pb-8">
         <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8">
           <NumerologyCalculator />
         </div>
+      </div>
+
+      {/* Complete Pináculo Calculator */}
+      <div className="max-w-7xl mx-auto px-4 pb-16">
+        <PinaculoCalculatorComplete />
       </div>
 
       {/* About Section */}

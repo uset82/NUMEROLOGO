@@ -1,6 +1,7 @@
 /**
  * Real MCP Numerology Logic Agent Implementation
  * Uses actual MCP protocol for communication
+ * FIXED: Now uses proper Pináculo system instead of Western numerology
  */
 
 import { MCPAgent } from '../../mcp/server'
@@ -8,56 +9,86 @@ import { MCPAgent } from '../../mcp/server'
 export interface NumerologyInput {
   name: string
   birthDate: string
-  fullName?: string
-  middleName?: string
 }
 
 export interface NumerologyReport {
-  lifePathNumber: number
-  destinyNumber: number
-  soulUrgeNumber: number
-  personalityNumber: number
-  birthDayNumber: number
-  expressionNumber: number
-  maturityNumber: number
-  interpretation: {
-    lifePath: string
-    destiny: string
-    soulUrge: string
-    personality: string
-    overall: string
-  }
-  luckyNumbers: number[]
-  compatibleNumbers: number[]
-  challengeNumbers: number[]
+  // Números base del Pináculo
+  baseNumbers: {
+    A: number; // TAREA NO APRENDIDA (Mes)
+    B: number; // MI ESENCIA (Día)
+    C: number; // MI VIDA PASADA (Año)
+  };
+  
+  // Números positivos del Pináculo
+  positiveNumbers: {
+    D: number; // MI MÁSCARA
+    E: number; // IMPLANTACIÓN DEL PROGRAMA
+    F: number; // ENCUENTRO CON TU MAESTRO
+    G: number; // RE-IDENTIFICACIÓN CON TU YO
+    H: number; // TU DESTINO
+    I: number; // INCONSCIENTE
+    J: number; // MI ESPEJO
+    X: number; // REACCIÓN
+    Y: number; // MISIÓN
+  };
+  
+  // Números negativos del Pináculo
+  negativeNumbers: {
+    K: number; // ADOLESCENCIA
+    L: number; // JUVENTUD
+    M: number; // ADULTEZ
+    N: number; // ADULTO MAYOR
+    O: number; // INCONSCIENTE NEGATIVO
+    P: number; // MI SOMBRA
+    Q: number; // SER INFERIOR 1
+    R: number; // SER INFERIOR 2
+    S: number; // SER INFERIOR 3
+  };
+  
+  // Números del nombre (Sistema Caldeo)
+  nameNumbers: {
+    alma: number; // ALMA (Vocales)
+    personality: number; // PERSONALIDAD (Consonantes)
+    nameTotal: number; // NÚMERO PERSONAL (Nombre completo)
+  };
+  
+  // Regalo Divino
+  regaloDivino: number; // Z - REGALO DIVINO
+  
+  // Resumen principal
+  summary: {
+    esencia: number; // B
+    mision: number; // Y
+    alma: number; // Vocales
+    personalidad: number; // Consonantes
+    numeroPersonal: number; // Nombre completo
+    regaloDivino: number; // Z
+  };
+  
+  interpretations: Record<string, string>;
 }
 
 export class RealNumerologyLogicAgent implements MCPAgent {
   public readonly id = 'numerology-logic'
-  public readonly name = 'Real Numerology Logic Agent'
-  public readonly role = 'Mathematical Algorithm Designer'
-  public readonly capabilities = ['numerology_calculation', 'number_interpretation', 'lucky_numbers']
+  public readonly name = 'Real Numerology Logic Agent (Pináculo System)'
+  public readonly role = 'Pináculo Numerology Calculator'
+  public readonly capabilities = ['numerology_calculation', 'pinaculo_interpretation', 'chaldean_numbers']
 
   private letterValues: { [key: string]: number } = {
-    A: 1, B: 2, C: 3, D: 4, E: 5, F: 6, G: 7, H: 8, I: 9,
-    J: 1, K: 2, L: 3, M: 4, N: 5, O: 6, P: 7, Q: 8, R: 9,
-    S: 1, T: 2, U: 3, V: 4, W: 5, X: 6, Y: 7, Z: 8
+    'A': 1, 'B': 2, 'C': 3, 'D': 4, 'E': 5, 'F': 6, 'G': 7, 'H': 8, 'I': 9,
+    'J': 1, 'K': 2, 'L': 3, 'M': 4, 'N': 5, 'O': 6, 'P': 7, 'Q': 8, 'R': 9,
+    'S': 1, 'T': 2, 'U': 3, 'V': 4, 'W': 5, 'X': 6, 'Y': 7, 'Z': 8
   }
 
-  private vowels = 'AEIOU'
-
   public async handleRequest(request: any): Promise<any> {
-    console.log(`[Numerology Logic Agent] Received request:`, request.type)
+    console.log(`[Pináculo Numerology Agent] Received request:`, request.type)
 
     switch (request.type) {
       case 'numerology_calculation':
         return await this.generateReport(request.input)
       
-      case 'number_interpretation':
+      case 'pinaculo_interpretation':
         return await this.interpretNumber(request.input)
-      
-      case 'lucky_numbers':
-        return await this.calculateLuckyNumbersFromInput(request.input)
       
       default:
         throw new Error(`Unknown request type: ${request.type}`)
@@ -65,282 +96,158 @@ export class RealNumerologyLogicAgent implements MCPAgent {
   }
 
   public async generateReport(input: NumerologyInput): Promise<NumerologyReport> {
-    console.log(`[Numerology Logic Agent] Generating report for: ${input.name}`)
+    console.log(`[Pináculo Numerology Agent] Generating report for: ${input.name}`)
 
-    const lifePathNumber = this.calculateLifePathNumber(input.birthDate)
-    const destinyNumber = this.calculateDestinyNumber(input.name)
-    const soulUrgeNumber = this.calculateSoulUrgeNumber(input.name)
-    const personalityNumber = this.calculatePersonalityNumber(input.name)
-    const birthDayNumber = this.calculateBirthDayNumber(input.birthDate)
-    const expressionNumber = destinyNumber // Same as destiny in most systems
-    const maturityNumber = this.calculateMaturityNumber(lifePathNumber, destinyNumber)
+    // Parse birth date
+    const [day, month, year] = input.birthDate.split('/').map(Number);
+    
+    // NÚMEROS BASE - EXACT competitor logic
+    const A = month;  // MES (no reduction needed, months are 1-12)
+    const B = day <= 9 ? day : this.reduceToSingleDigit(day);  // DÍA 
+    const C = this.reduceToSingleDigit(year);  // AÑO
 
-    const interpretation = this.generateInterpretation({
-      lifePathNumber,
-      destinyNumber,
-      soulUrgeNumber,
-      personalityNumber
-    })
+    // NÚMEROS POSITIVOS - EXACT formulas
+    // CORRECCIÓN: D logic with special case for (day + month) * 2 = 22
+    const D_original = this.reduceToSingleDigit(A + B + C);
+    const D_theory = (day + month) * 2;
+    // Use theory if it gives 22, otherwise use original formula
+    const D = (D_theory === 22) ? 22 : D_original;
 
-    const luckyNumbers = this.calculateLuckyNumbers(lifePathNumber, destinyNumber)
-    const compatibleNumbers = this.calculateCompatibleNumbers(lifePathNumber)
-    const challengeNumbers = this.calculateChallengeNumbers(input.birthDate)
+    const E = this.reduceToSingleDigit(A + B);
+    const F = this.reduceToSingleDigit(B + C);
+    const G = this.reduceToSingleDigit(E + F);
+    const H = this.reduceToSingleDigit(A + C);
+    const I = this.reduceToSingleDigit(E + F + G);
+    const J = this.reduceToSingleDigit(D + H);
+    const X = this.reduceToSingleDigit(B + D);
+    const Y = this.reduceToSingleDigit(A + B + C + D + X);
 
-    console.log(`[Numerology Logic Agent] Report completed for: ${input.name}`)
+    // NÚMEROS NEGATIVOS - EXACT formulas
+    const K = Math.abs(A - B);
+    const L = Math.abs(B - C);
+    const M = K !== L ? Math.abs(K - L) : this.reduceToSingleDigit(K + L);
+    const N = Math.abs(A - C);
+    const O = this.reduceToSingleDigit(M + K + L);
+    const P = this.reduceToSingleDigit(D + O);
+    const Q = this.reduceToSingleDigit(K + M);
+    const R = this.reduceToSingleDigit(L + M);
+    const S = this.reduceToSingleDigit(Q + R);
+
+    // NÚMEROS DEL NOMBRE - Sistema Caldeo
+    const cleanName = input.name.toUpperCase().replace(/[^A-Z]/g, '');
+    const nameTotal = cleanName.split('').reduce((sum, letter) => sum + this.getLetterValue(letter), 0);
+    const nameNumber = this.reduceToSingleDigit(nameTotal);
+
+    // ALMA (Vocales)
+    const vowels = cleanName.split('').filter(c => 'AEIOU'.includes(c));
+    const vowelTotal = vowels.reduce((sum, letter) => sum + this.getLetterValue(letter), 0);
+    const almaNumber = this.reduceToSingleDigit(vowelTotal);
+
+    // PERSONALIDAD (Consonantes)
+    const consonants = cleanName.split('').filter(c => c.match(/[A-Z]/) && !'AEIOU'.includes(c));
+    const consonantTotal = consonants.reduce((sum, letter) => sum + this.getLetterValue(letter), 0);
+    const personalityNumber = this.reduceToSingleDigit(consonantTotal);
+
+    // REGALO DIVINO (Z)
+    const Z = this.reduceToSingleDigit(parseInt(year.toString().slice(-2)));
+
+    const interpretations = this.buildInterpretations({
+      A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S,
+      X, Y, Z,
+      alma: almaNumber,
+      personality: personalityNumber,
+      nameTotal: nameNumber
+    });
+
+    console.log(`[Pináculo Numerology Agent] Report completed for: ${input.name}`)
 
     return {
-      lifePathNumber,
-      destinyNumber,
-      soulUrgeNumber,
-      personalityNumber,
-      birthDayNumber,
-      expressionNumber,
-      maturityNumber,
-      interpretation,
-      luckyNumbers,
-      compatibleNumbers,
-      challengeNumbers
+      baseNumbers: { A, B, C },
+      positiveNumbers: { D, E, F, G, H, I, J, X, Y },
+      negativeNumbers: { K, L, M, N, O, P, Q, R, S },
+      nameNumbers: {
+        alma: almaNumber,
+        personality: personalityNumber,
+        nameTotal: nameNumber
+      },
+      regaloDivino: Z,
+      summary: {
+        esencia: B,
+        mision: Y,
+        alma: almaNumber,
+        personalidad: personalityNumber,
+        numeroPersonal: nameNumber,
+        regaloDivino: Z
+      },
+      interpretations
     }
   }
 
-  private calculateLifePathNumber(birthDate: string): number {
-    const digits = birthDate.replace(/\D/g, '').split('').map(Number)
-    return this.reduceToSingleDigit(digits.reduce((sum, digit) => sum + digit, 0))
-  }
-
-  private calculateDestinyNumber(name: string): number {
-    return this.calculateNameNumber(name)
-  }
-
-  private calculateSoulUrgeNumber(name: string): number {
-    const vowelsOnly = name.toUpperCase().split('').filter(char => this.vowels.includes(char))
-    const sum = vowelsOnly.reduce((total, char) => total + (this.letterValues[char] || 0), 0)
-    return this.reduceToSingleDigit(sum)
-  }
-
-  private calculatePersonalityNumber(name: string): number {
-    const consonantsOnly = name.toUpperCase().split('').filter(char => 
-      /[A-Z]/.test(char) && !this.vowels.includes(char)
-    )
-    const sum = consonantsOnly.reduce((total, char) => total + (this.letterValues[char] || 0), 0)
-    return this.reduceToSingleDigit(sum)
-  }
-
-  private calculateBirthDayNumber(birthDate: string): number {
-    const dayMatch = birthDate.match(/\d{1,2}(?=\D|$)/)
-    if (!dayMatch) return 1
-    const day = parseInt(dayMatch[0])
-    return this.reduceToSingleDigit(day)
-  }
-
-  private calculateMaturityNumber(lifePath: number, destiny: number): number {
-    return this.reduceToSingleDigit(lifePath + destiny)
-  }
-
-  private calculateNameNumber(name: string): number {
-    const cleanName = name.toUpperCase().replace(/[^A-Z]/g, '')
-    const sum = cleanName.split('').reduce((total, char) => total + (this.letterValues[char] || 0), 0)
-    return this.reduceToSingleDigit(sum)
+  private getLetterValue(letter: string): number {
+    return this.letterValues[letter.toUpperCase()] || 0;
   }
 
   private reduceToSingleDigit(num: number): number {
-    while (num > 9 && num !== 11 && num !== 22 && num !== 33) {
-      num = num.toString().split('').map(Number).reduce((sum, digit) => sum + digit, 0)
+    // CRITICAL: Preserve Master Numbers 11, 22, 33
+    if (num === 11 || num === 22 || num === 33) {
+      return num;
     }
-    return num
-  }
-
-  private calculateLuckyNumbers(lifePath: number, destiny: number): number[] {
-    const base = [lifePath, destiny]
-    const additional = [
-      (lifePath + destiny) % 9 + 1,
-      (lifePath * 2) % 9 + 1,
-      (destiny * 2) % 9 + 1
-    ]
-    return [...new Set([...base, ...additional])].sort((a, b) => a - b).slice(0, 5)
-  }
-
-  private calculateCompatibleNumbers(lifePath: number): number[] {
-    const compatibilityMap: { [key: number]: number[] } = {
-      1: [1, 5, 7],
-      2: [2, 4, 8],
-      3: [3, 6, 9],
-      4: [2, 4, 8],
-      5: [1, 5, 7],
-      6: [3, 6, 9],
-      7: [1, 5, 7],
-      8: [2, 4, 8],
-      9: [3, 6, 9],
-      11: [2, 6, 9],
-      22: [4, 6, 8],
-      33: [3, 6, 9]
+    
+    while (num > 9) {
+      num = num.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+      // Check again after each reduction
+      if (num === 11 || num === 22 || num === 33) {
+        return num;
+      }
     }
-    return compatibilityMap[lifePath] || [1, 5, 9]
+    return num;
   }
 
-  private calculateChallengeNumbers(birthDate: string): number[] {
-    const digits = birthDate.replace(/\D/g, '').split('').map(Number)
-    if (digits.length < 8) return [0, 0, 0, 0]
-
-    const month = parseInt(birthDate.substring(0, 2)) || 1
-    const day = parseInt(birthDate.substring(3, 5)) || 1
-    const year = parseInt(birthDate.substring(6)) || 2000
-
-    const challenge1 = Math.abs(this.reduceToSingleDigit(month) - this.reduceToSingleDigit(day))
-    const challenge2 = Math.abs(this.reduceToSingleDigit(day) - this.reduceToSingleDigit(year))
-    const challenge3 = Math.abs(challenge1 - challenge2)
-    const challenge4 = Math.abs(this.reduceToSingleDigit(month) - this.reduceToSingleDigit(year))
-
-    return [challenge1, challenge2, challenge3, challenge4]
-  }
-
-  private generateInterpretation(numbers: {
-    lifePathNumber: number
-    destinyNumber: number
-    soulUrgeNumber: number
-    personalityNumber: number
-  }) {
+  private buildInterpretations(numbers: any): Record<string, string> {
     return {
-      lifePath: this.getLifePathInterpretation(numbers.lifePathNumber),
-      destiny: this.getDestinyInterpretation(numbers.destinyNumber),
-      soulUrge: this.getSoulUrgeInterpretation(numbers.soulUrgeNumber),
-      personality: this.getPersonalityInterpretation(numbers.personalityNumber),
-      overall: this.getOverallInterpretation(numbers)
-    }
-  }
-
-  private getLifePathInterpretation(number: number): string {
-    const interpretations: { [key: number]: string } = {
-      1: "Natural leader with pioneering spirit. You're independent and innovative.",
-      2: "Peaceful cooperator who works well with others. You're diplomatic and supportive.",
-      3: "Creative communicator with artistic talents. You're expressive and social.",
-      4: "Practical builder focused on stability. You're organized and reliable.",
-      5: "Freedom-loving adventurer who craves variety. You're versatile and progressive.",
-      6: "Nurturing caretaker focused on family and responsibility. You're compassionate and healing.",
-      7: "Spiritual seeker with analytical mind. You're introspective and seek deeper truths.",
-      8: "Material achiever with business acumen. You're ambitious and focused on success.",
-      9: "Humanitarian helper with universal perspective. You're generous and idealistic.",
-      11: "Intuitive inspirational leader. You have heightened spiritual awareness.",
-      22: "Master builder who can manifest dreams into reality. You have powerful practical abilities.",
-      33: "Master teacher with exceptional compassion. You inspire and heal others."
-    }
-    return interpretations[number] || "Unique spiritual path with special significance."
-  }
-
-  private getDestinyInterpretation(number: number): string {
-    const interpretations: { [key: number]: string } = {
-      1: "Destined to lead and pioneer new paths in your chosen field.",
-      2: "Destined to bring harmony and cooperation to challenging situations.",
-      3: "Destined to express creativity and inspire others through communication.",
-      4: "Destined to build lasting foundations and create practical solutions.",
-      5: "Destined to explore freedom and bring progressive change to the world.",
-      6: "Destined to nurture others and create harmony in family and community.",
-      7: "Destined to seek wisdom and share spiritual insights with others.",
-      8: "Destined to achieve material success and lead in business or organization.",
-      9: "Destined to serve humanity and make the world a better place.",
-      11: "Destined to be a spiritual teacher and illuminate the path for others.",
-      22: "Destined to manifest great projects that benefit humanity on a large scale.",
-      33: "Destined to be a healer and teacher, inspiring others through love and compassion."
-    }
-    return interpretations[number] || "Destined for a unique path of service and growth."
-  }
-
-  private getSoulUrgeInterpretation(number: number): string {
-    const interpretations: { [key: number]: string } = {
-      1: "Deep desire to be independent and achieve personal success.",
-      2: "Deep desire for harmony, partnership, and peaceful relationships.",
-      3: "Deep desire to express creativity and bring joy to others.",
-      4: "Deep desire for security, order, and systematic achievement.",
-      5: "Deep desire for freedom, adventure, and varied experiences.",
-      6: "Deep desire to love, nurture, and care for family and community.",
-      7: "Deep desire to understand life's mysteries and gain spiritual wisdom.",
-      8: "Deep desire for material achievement and recognition of your accomplishments.",
-      9: "Deep desire to serve humanity and make a positive impact on the world.",
-      11: "Deep desire to inspire others and fulfill your spiritual mission.",
-      22: "Deep desire to build something lasting that improves the world.",
-      33: "Deep desire to heal and teach others through unconditional love."
-    }
-    return interpretations[number] || "Deep desire for a unique form of self-expression and contribution."
-  }
-
-  private getPersonalityInterpretation(number: number): string {
-    const interpretations: { [key: number]: string } = {
-      1: "Others see you as confident, independent, and naturally authoritative.",
-      2: "Others see you as gentle, cooperative, and easy to approach.",
-      3: "Others see you as charming, creative, and socially engaging.",
-      4: "Others see you as reliable, practical, and well-organized.",
-      5: "Others see you as dynamic, versatile, and exciting to be around.",
-      6: "Others see you as warm, caring, and naturally supportive.",
-      7: "Others see you as mysterious, intellectual, and deeply thoughtful.",
-      8: "Others see you as powerful, successful, and materially focused.",
-      9: "Others see you as compassionate, generous, and globally minded.",
-      11: "Others see you as inspiring, intuitive, and spiritually aware.",
-      22: "Others see you as capable of great achievements and practical mastery.",
-      33: "Others see you as a natural healer and source of unconditional love."
-    }
-    return interpretations[number] || "Others see you as someone with a unique and special presence."
-  }
-
-  private getOverallInterpretation(numbers: {
-    lifePathNumber: number
-    destinyNumber: number
-    soulUrgeNumber: number
-    personalityNumber: number
-  }): string {
-    let overall = "Your numerological profile reveals a unique blend of qualities. "
-
-    if (numbers.lifePathNumber === numbers.destinyNumber) {
-      overall += "Your life path and destiny are in perfect alignment, suggesting a clear sense of purpose. "
-    }
-
-    if (numbers.soulUrgeNumber === numbers.personalityNumber) {
-      overall += "Your inner desires match your outer expression, indicating authenticity in your interactions. "
-    }
-
-    const masterNumbers = [numbers.lifePathNumber, numbers.destinyNumber, numbers.soulUrgeNumber, numbers.personalityNumber].filter(n => [11, 22, 33].includes(n))
-    if (masterNumbers.length > 0) {
-      overall += "The presence of master numbers indicates heightened spiritual potential and greater responsibility in this lifetime. "
-    }
-
-    overall += "Focus on balancing your spiritual growth with practical achievements for the most fulfilling path forward."
-
-    return overall
+      // Números Base
+      'A': `TAREA NO APRENDIDA (${numbers.A}): Lecciones pendientes de vidas pasadas que debes completar.`,
+      'B': `MI ESENCIA (${numbers.B}): Tu verdadera naturaleza y personalidad core.`,
+      'C': `MI VIDA PASADA (${numbers.C}): Influencias y experiencias de encarnaciones anteriores.`,
+      
+      // Números Positivos
+      'D': `MI MÁSCARA (${numbers.D}): La personalidad que muestras al mundo exterior.`,
+      'E': `IMPLANTACIÓN DEL PROGRAMA (${numbers.E}): Patrones mentales establecidos en la infancia.`,
+      'F': `ENCUENTRO CON TU MAESTRO (${numbers.F}): Oportunidades de aprendizaje espiritual.`,
+      'G': `RE-IDENTIFICACIÓN CON TU YO (${numbers.G}): Proceso de autodescubrimiento y autenticidad.`,
+      'H': `TU DESTINO (${numbers.H}): El propósito principal de tu vida actual.`,
+      'I': `INCONSCIENTE (${numbers.I}): Fuerzas subconscientes que influyen en tus decisiones.`,
+      'J': `MI ESPEJO (${numbers.J}): Cómo te reflejas en las relaciones con otros.`,
+      'X': `REACCIÓN (${numbers.X}): Tu forma instintiva de responder ante los desafíos.`,
+      'Y': `MISIÓN (${numbers.Y}): Tu propósito de vida y contribución al mundo.`,
+      
+      // Números Negativos
+      'K': `ADOLESCENCIA (${numbers.K}): Patrones establecidos durante la adolescencia.`,
+      'L': `JUVENTUD (${numbers.L}): Experiencias formativas de los primeros años adultos.`,
+      'M': `ADULTEZ (${numbers.M}): Lecciones y desafíos de la madurez.`,
+      'N': `ADULTO MAYOR (${numbers.N}): Sabiduría y retos de los años dorados.`,
+      'O': `INCONSCIENTE NEGATIVO (${numbers.O}): Patrones destructivos ocultos.`,
+      'P': `MI SOMBRA (${numbers.P}): Aspectos de ti mismo que tiendes a negar o reprimir.`,
+      'Q': `SER INFERIOR 1 (${numbers.Q}): Primera capa de limitaciones autoimpuestas.`,
+      'R': `SER INFERIOR 2 (${numbers.R}): Segunda capa de miedos y bloqueos.`,
+      'S': `SER INFERIOR 3 (${numbers.S}): Nivel más profundo de resistencias internas.`,
+      
+      // Números del Nombre
+      'ALMA': `ALMA (${numbers.alma}): Tu motivación más profunda y deseos del corazón.`,
+      'PERSONALIDAD': `PERSONALIDAD (${numbers.personality}): La imagen que proyectas hacia el exterior.`,
+      'NUMERO_PERSONAL': `NÚMERO PERSONAL (${numbers.nameTotal}): La energía total de tu nombre completo.`,
+      
+      // Regalo Divino
+      'Z': `REGALO DIVINO (${numbers.Z}): Tu don especial y talento natural para esta vida.`
+    };
   }
 
   private async interpretNumber(input: { number: number; type: string }): Promise<any> {
     const { number, type } = input
     
-    switch (type) {
-      case 'lifePath':
-        return { interpretation: this.getLifePathInterpretation(number) }
-      case 'destiny':
-        return { interpretation: this.getDestinyInterpretation(number) }
-      case 'soulUrge':
-        return { interpretation: this.getSoulUrgeInterpretation(number) }
-      case 'personality':
-        return { interpretation: this.getPersonalityInterpretation(number) }
-      default:
-        return { interpretation: "Number interpretation not available for this type." }
-    }
-  }
-
-  private async calculateLuckyNumbersFromInput(input: { name?: string; birthDate?: string; lifePath?: number; destiny?: number }): Promise<any> {
-    let lifePath = input.lifePath
-    let destiny = input.destiny
-
-    if (!lifePath && input.birthDate) {
-      lifePath = this.calculateLifePathNumber(input.birthDate)
-    }
-    if (!destiny && input.name) {
-      destiny = this.calculateDestinyNumber(input.name)
-    }
-
-    if (lifePath && destiny) {
-      const luckyNumbers = this.calculateLuckyNumbers(lifePath, destiny)
-      return { luckyNumbers }
-    }
-
-    return { error: "Insufficient data to calculate lucky numbers" }
+    // Return appropriate interpretation based on type
+    const interpretations = this.buildInterpretations({ [type]: number });
+    return { interpretation: interpretations[type.toUpperCase()] || "Interpretación no disponible para este tipo." }
   }
 }
 

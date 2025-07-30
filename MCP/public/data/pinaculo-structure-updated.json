@@ -1,0 +1,323 @@
+{
+  "pinnacle": {
+    "title": "Diagrama del Pináculo - Sistema Numerológico Completo",
+    "version": "3.0",
+    "source": "PPT CLASE 1.pdf + Reglas de Comprobación",
+    "description": "Sistema completo del pináculo con todas las posiciones, conexiones y fórmulas actualizadas incluyendo reglas de verificación para D y H",
+    "nodes": {
+      "A": {
+        "id": "A",
+        "letter": "A",
+        "name": "TAREA NO APRENDIDA",
+        "formula": "MES (reducido)",
+        "type": "base",
+        "level": 4,
+        "position": { "x": 15, "y": 45 },
+        "color": "#9333EA",
+        "category": "base",
+        "description": "Mi karma, lo que vine a aprender"
+      },
+      "B": {
+        "id": "B",
+        "letter": "B", 
+        "name": "MI ESENCIA",
+        "formula": "DÍA (reducido)",
+        "type": "base",
+        "level": 4,
+        "position": { "x": 40, "y": 45 },
+        "color": "#9333EA",
+        "category": "base",
+        "description": "Quién soy realmente, mi número personal"
+      },
+      "C": {
+        "id": "C",
+        "letter": "C",
+        "name": "MI VIDA PASADA", 
+        "formula": "AÑO (reducido)",
+        "type": "base",
+        "level": 4,
+        "position": { "x": 60, "y": 45 },
+        "color": "#9333EA",
+        "category": "base",
+        "description": "Experiencias y aprendizajes anteriores"
+      },
+      "D": {
+        "id": "D",
+        "letter": "D",
+        "name": "MI MÁSCARA",
+        "formula": "A + B + C (con regla de comprobación)",
+        "type": "base",
+        "level": 4,
+        "position": { "x": 85, "y": 45 },
+        "color": "#9333EA",
+        "category": "base",
+        "description": "Cómo me muestro al mundo",
+        "special_rule": "Regla de comprobación cuando resultado es 2, 11, 4 o 22"
+      },
+      "H": {
+        "id": "H",
+        "letter": "H",
+        "name": "TU DESTINO",
+        "formula": "A + C (con regla de comprobación)",
+        "type": "positive",
+        "level": 1,
+        "position": { "x": 50, "y": 0 },
+        "color": "#10B981",
+        "category": "superior",
+        "description": "Tu destino final, el propósito de tu vida",
+        "special_rule": "Regla de comprobación cuando resultado es 2, 11, 4 o 22"
+      },
+      "E": {
+        "id": "E",
+        "letter": "E",
+        "name": "IMPLANTACIÓN DEL PROGRAMA",
+        "formula": "A + B",
+        "type": "positive",
+        "level": 3,
+        "position": { "x": 20, "y": 30 },
+        "color": "#6EE7B7",
+        "category": "ciclos",
+        "description": "Primera realización, formación de la personalidad"
+      },
+      "F": {
+        "id": "F",
+        "letter": "F",
+        "name": "ENCUENTRO CON TU MAESTRO",
+        "formula": "B + C",
+        "type": "positive",
+        "level": 3,
+        "position": { "x": 80, "y": 30 },
+        "color": "#6EE7B7",
+        "category": "ciclos",
+        "description": "Segunda realización, desarrollo profesional"
+      },
+      "G": {
+        "id": "G",
+        "letter": "G",
+        "name": "RE-IDENTIFICACIÓN CON TU YO",
+        "formula": "E + F",
+        "type": "positive",
+        "level": 2,
+        "position": { "x": 30, "y": 15 },
+        "color": "#34D399",
+        "category": "ciclos",
+        "description": "Redescubrimiento personal y autenticidad"
+      },
+      "I": {
+        "id": "I",
+        "letter": "I",
+        "name": "INCONSCIENTE",
+        "formula": "E + F + G",
+        "type": "positive",
+        "level": 3,
+        "position": { "x": 50, "y": 30 },
+        "color": "#6EE7B7",
+        "category": "oculto",
+        "description": "Tu subconsciente, la guía interna"
+      },
+      "J": {
+        "id": "J",
+        "letter": "J",
+        "name": "MI ESPEJO",
+        "formula": "D + H",
+        "type": "positive",
+        "level": 2,
+        "position": { "x": 70, "y": 15 },
+        "color": "#34D399",
+        "category": "superior",
+        "description": "Tu reflejo interno, cómo te percibes"
+      },
+      "X": {
+        "id": "X",
+        "letter": "X",
+        "name": "REACCIÓN",
+        "formula": "B + D",
+        "type": "positive",
+        "level": 4,
+        "position": { "x": 100, "y": 45 },
+        "color": "#10B981",
+        "category": "adicional",
+        "description": "Cómo reacciono ante situaciones"
+      },
+      "Y": {
+        "id": "Y",
+        "letter": "Y",
+        "name": "MISIÓN",
+        "formula": "A + B + C + D + X",
+        "type": "positive",
+        "level": 2,
+        "position": { "x": 90, "y": 15 },
+        "color": "#10B981",
+        "category": "superior",
+        "description": "Mi misión de vida completa"
+      },
+      "K": {
+        "id": "K",
+        "letter": "K",
+        "name": "ADOLESCENCIA",
+        "formula": "|A - B|",
+        "type": "negative",
+        "level": 5,
+        "position": { "x": 25, "y": 60 },
+        "color": "#EF4444",
+        "category": "negativos",
+        "description": "Desafíos de la adolescencia"
+      },
+      "L": {
+        "id": "L",
+        "letter": "L",
+        "name": "JUVENTUD",
+        "formula": "|B - C|",
+        "type": "negative",
+        "level": 5,
+        "position": { "x": 75, "y": 60 },
+        "color": "#EF4444",
+        "category": "negativos",
+        "description": "Desafíos de la juventud"
+      },
+      "M": {
+        "id": "M",
+        "letter": "M",
+        "name": "ADULTEZ",
+        "formula": "K ≠ L ? |K - L| : K + L",
+        "type": "negative",
+        "level": 6,
+        "position": { "x": 50, "y": 75 },
+        "color": "#F87171",
+        "category": "negativos",
+        "description": "Desafíos de la edad adulta"
+      },
+      "N": {
+        "id": "N",
+        "letter": "N",
+        "name": "ADULTO MAYOR",
+        "formula": "|A - C|",
+        "type": "negative",
+        "level": 6,
+        "position": { "x": 70, "y": 75 },
+        "color": "#F87171",
+        "category": "negativos",
+        "description": "Desafíos del adulto mayor"
+      },
+      "O": {
+        "id": "O",
+        "letter": "O",
+        "name": "INCONSCIENTE NEGATIVO",
+        "formula": "M + K + L",
+        "type": "negative",
+        "level": 5,
+        "position": { "x": 50, "y": 60 },
+        "color": "#EF4444",
+        "category": "negativos",
+        "description": "Resistencias internas inconscientes"
+      },
+      "P": {
+        "id": "P",
+        "letter": "P",
+        "name": "MI SOMBRA",
+        "formula": "D + O",
+        "type": "negative",
+        "level": 6,
+        "position": { "x": 30, "y": 75 },
+        "color": "#F87171",
+        "category": "negativos",
+        "description": "Aspectos ocultos de mi personalidad"
+      },
+      "Q": {
+        "id": "Q",
+        "letter": "Q",
+        "name": "SER INFERIOR 1",
+        "formula": "K + M",
+        "type": "negative",
+        "level": 7,
+        "position": { "x": 25, "y": 90 },
+        "color": "#FCA5A5",
+        "category": "negativos",
+        "description": "Primera capa de limitaciones"
+      },
+      "R": {
+        "id": "R",
+        "letter": "R",
+        "name": "SER INFERIOR 2",
+        "formula": "L + M",
+        "type": "negative",
+        "level": 7,
+        "position": { "x": 50, "y": 90 },
+        "color": "#FCA5A5",
+        "category": "negativos",
+        "description": "Segunda capa de limitaciones"
+      },
+      "S": {
+        "id": "S",
+        "letter": "S",
+        "name": "SER INFERIOR 3",
+        "formula": "Q + R",
+        "type": "negative",
+        "level": 7,
+        "position": { "x": 75, "y": 90 },
+        "color": "#FCA5A5",
+        "category": "negativos",
+        "description": "Tercera capa de limitaciones"
+      },
+      "W": {
+        "id": "W",
+        "letter": "W",
+        "name": "TRIPLICIDAD",
+        "formula": "Nombre completo (sistema Caldeo)",
+        "type": "special",
+        "level": 5,
+        "position": { "x": 5, "y": 60 },
+        "color": "#DC2626",
+        "category": "nombre",
+        "description": "Mi personalidad completa según sistema Caldeo"
+      },
+          "Z": {
+      "id": "Z",
+      "letter": "Z",
+      "name": "REGALO DIVINO",
+      "formula": "Últimos 2 dígitos del año",
+      "type": "special",
+      "level": 4,
+      "position": { "x": 95, "y": 60 },
+      "color": "#FBBF24",
+      "category": "especial",
+      "description": "Don especial otorgado"
+    },
+    "T": {
+      "id": "T",
+      "letter": "T",
+      "name": "AUSENTES",
+      "formula": "Números del 1-9 que no aparecen",
+      "type": "special",
+      "level": 4,
+      "position": { "x": 50, "y": 95 },
+      "color": "#94A3B8",
+      "category": "especial",
+      "description": "Números faltantes en el Pináculo"
+    }
+  },
+    "verification_rules": {
+      "D": {
+        "condition": "Cuando D resulta en 2, 11, 4 o 22",
+        "process": "Comparar D1 (mes+día+año sin reducir) vs D2 (A+B+C reducidos)",
+        "result": "Si D1 ≠ D2 tomar D1, si D1 = D2 tomar cualquiera"
+      },
+      "H": {
+        "condition": "Cuando H resulta en 2, 11, 4 o 22", 
+        "process": "Comparar H1 (mes+año sin reducir) vs H2 (A+C reducidos)",
+        "result": "Si H1 ≠ H2 tomar H1, si H1 = H2 tomar cualquiera"
+      }
+    },
+    "master_numbers": [11, 22, 33],
+    "caldeo_system": {
+      "A": 1, "B": 2, "C": 3, "D": 4, "E": 5, "F": 8, "G": 3, "H": 5,
+      "I": 1, "J": 1, "K": 2, "L": 3, "M": 4, "N": 5, "O": 7, "P": 8,
+      "Q": 1, "R": 2, "S": 3, "T": 4, "U": 6, "V": 6, "W": 6, "X": 5,
+      "Y": 1, "Z": 7
+    },
+      "calculation_order": [
+    "A", "B", "C", "D", "H", "E", "F", "G", "I", "J", "X", "Y",
+    "K", "L", "M", "N", "O", "P", "Q", "R", "S", "W", "Z", "T"
+  ]
+  }
+}

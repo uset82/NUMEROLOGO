@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { PinaculoStructure, PinaculoCalculator, loadPinaculoStructure } from '@/types/pinaculo'
+import { PinnacleStructure, PinaculoCalculator, PinaculoResults } from '@/types/pinaculo'
 
 interface PinaculoDiagramProps {
   birthDay?: number
@@ -11,16 +11,18 @@ interface PinaculoDiagramProps {
 }
 
 function PinaculoDiagram({ birthDay, birthMonth, birthYear, name }: PinaculoDiagramProps) {
-  const [structure, setStructure] = useState<PinaculoStructure | null>(null)
-  const [calculations, setCalculations] = useState<Record<string, number> | null>(null)
+  const [structure, setStructure] = useState<PinnacleStructure | null>(null)
+  const [calculations, setCalculations] = useState<PinaculoResults | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    const loadData = () => {
+    const loadData = async () => {
       try {
         setError(null)
-        const structureData = loadPinaculoStructure()
+        // Load structure from JSON file
+        const response = await fetch('/data/pinaculo-structure.json')
+        const structureData: PinnacleStructure = await response.json()
         setStructure(structureData)
       } catch (error) {
         console.error('Error loading Pináculo structure:', error)
@@ -34,11 +36,11 @@ function PinaculoDiagram({ birthDay, birthMonth, birthYear, name }: PinaculoDiag
   }, [])
 
   useEffect(() => {
-    if (birthDay && birthMonth && birthYear) {
-      const calc = PinaculoCalculator.calculateAllPositions(birthDay, birthMonth, birthYear)
+    if (birthDay && birthMonth && birthYear && name) {
+      const calc = PinaculoCalculator.calculateComplete(name, birthDay, birthMonth, birthYear)
       setCalculations(calc)
     }
-  }, [birthDay, birthMonth, birthYear])
+  }, [birthDay, birthMonth, birthYear, name])
 
   if (loading) {
     return (
@@ -79,294 +81,393 @@ function PinaculoDiagram({ birthDay, birthMonth, birthYear, name }: PinaculoDiag
     )
   }
 
-  return (
-    <div className="space-y-8">
-      {/* Main Pinaculo Display - Matches Competitor Layout */}
-      <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-6">
-        <div className="flex flex-wrap">
-          {/* Pinaculo Grid - Exactly like competitor */}
-          <div className="w-full lg:w-2/3 mb-6 lg:mb-0">
-            <div className="grid grid-cols-6 gap-2 text-center" style={{ minHeight: '300px' }}>
-              {/* Row 1 - Top */}
-              <div className="col-span-6 flex justify-center mb-4">
-                <div className="relative">
-                  <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-700 transition-colors">
-                    <span className="text-white font-bold text-lg">{calculations.H}</span>
-                  </div>
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-bold text-blue-600">H</div>
-                </div>
-              </div>
+  const renderDiagram = () => {
+    if (!calculations) return null
 
-              {/* Row 2 */}
-              <div></div>
-              <div className="flex justify-center">
-                <div className="relative">
-                  <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center cursor-pointer hover:bg-green-600 transition-colors">
-                    <span className="text-white font-bold">{calculations.G}</span>
-                  </div>
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-bold text-green-600">G</div>
-                </div>
-              </div>
-              <div></div>
-              <div></div>
-              <div className="flex justify-center">
-                <div className="relative">
-                  <div className="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center cursor-pointer hover:bg-purple-600 transition-colors">
-                    <span className="text-white font-bold">{calculations.I}</span>
-                  </div>
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-bold text-purple-600">I</div>
-                </div>
-              </div>
-              <div></div>
+    // Number circle component matching reference style
+    const NumberCircle = ({ 
+      number, 
+      letter, 
+      label = '',
+      color, 
+      size = 'w-12 h-12',
+      textColor = 'text-white'
+    }: { 
+      number: number, 
+      letter: string, 
+      label?: string,
+      color: string,
+      size?: string,
+      textColor?: string
+    }) => (
+      <div className="relative flex flex-col items-center">
+        <div className={`${size} ${color} rounded-full flex items-center justify-center cursor-pointer hover:opacity-90 transition-opacity shadow-lg border-2 border-gray-200`}>
+          <span className={`${textColor} font-bold text-lg`}>{number}</span>
+        </div>
+        <div className="text-xs font-bold mt-1 text-gray-700">{letter}</div>
+        <div className="text-xs text-gray-500 mt-0.5 text-center">{label}</div>
+      </div>
+    )
 
-              {/* Row 3 */}
-              <div className="flex justify-center">
-                <div className="relative">
-                  <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center cursor-pointer hover:bg-green-600 transition-colors">
-                    <span className="text-white font-bold">{calculations.E}</span>
-                  </div>
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-bold text-green-600">E</div>
-                </div>
-              </div>
-              <div></div>
-              <div className="flex justify-center">
-                <div className="relative">
-                  <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center cursor-pointer hover:bg-green-600 transition-colors">
-                    <span className="text-white font-bold">{calculations.F}</span>
-                  </div>
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-bold text-green-600">F</div>
-                </div>
-              </div>
-              <div></div>
-              <div className="flex justify-center">
-                <div className="relative">
-                  <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-600 transition-colors">
-                    <span className="text-white font-bold">{calculations.J}</span>
-                  </div>
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-bold text-blue-600">J</div>
-                </div>
-              </div>
-              <div></div>
+    // W Triplicidad from PPT formula
+    const W = calculations.W || 0;
 
-              {/* Row 4 - Main Row */}
-              <div className="flex justify-center">
-                <div className="relative">
-                  <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-green-700 transition-colors">
-                    <span className="text-white font-bold text-lg">{calculations.A}</span>
-                  </div>
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-bold text-green-600">A</div>
-                </div>
-              </div>
-              <div className="flex justify-center">
-                <div className="relative">
-                  <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-700 transition-colors">
-                    <span className="text-white font-bold text-lg">{calculations.B}</span>
-                  </div>
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-bold text-blue-600">B</div>
-                </div>
-              </div>
-              <div className="flex justify-center">
-                <div className="relative">
-                  <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-green-700 transition-colors">
-                    <span className="text-white font-bold text-lg">{calculations.C}</span>
-                  </div>
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-bold text-green-600">C</div>
-                </div>
-              </div>
-              <div className="flex justify-center">
-                <div className="relative">
-                  <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-purple-700 transition-colors">
-                    <span className="text-white font-bold text-lg">{calculations.D}</span>
-                  </div>
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-bold text-purple-600">D</div>
-                </div>
-              </div>
-              <div></div>
-              <div></div>
-
-              {/* Row 5 - Challenge Numbers */}
-              <div className="flex justify-center">
-                <div className="relative">
-                  <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center cursor-pointer hover:bg-red-600 transition-colors">
-                    <span className="text-white font-bold text-sm">{calculations.K}</span>
-                  </div>
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-bold text-red-600">K</div>
-                </div>
-              </div>
-              <div className="flex justify-center">
-                <div className="relative">
-                  <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center cursor-pointer hover:bg-red-600 transition-colors">
-                    <span className="text-white font-bold text-sm">{calculations.O}</span>
-                  </div>
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-bold text-red-600">O</div>
-                </div>
-              </div>
-              <div className="flex justify-center">
-                <div className="relative">
-                  <div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-red-700 transition-colors">
-                    <span className="text-white font-bold text-sm">{calculations.L}</span>
-                  </div>
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-bold text-red-600">L</div>
-                </div>
-              </div>
-              <div className="flex justify-center">
-                <div className="relative">
-                  <div className="w-8 h-8 bg-red-700 rounded-full flex items-center justify-center cursor-pointer hover:bg-red-800 transition-colors">
-                    <span className="text-white font-bold text-sm">{calculations.M}</span>
-                  </div>
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-bold text-red-700">M</div>
-                </div>
-              </div>
-              <div className="flex justify-center">
-                <div className="relative">
-                  <div className="w-8 h-8 bg-red-700 rounded-full flex items-center justify-center cursor-pointer hover:bg-red-800 transition-colors">
-                    <span className="text-white font-bold text-sm">{calculations.N}</span>
-                  </div>
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-bold text-red-700">N</div>
-                </div>
-              </div>
-              <div></div>
-
-              {/* Row 6 - Bottom challenges */}
-              <div></div>
-              <div className="flex justify-center">
-                <div className="relative">
-                  <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center cursor-pointer hover:bg-red-600 transition-colors">
-                    <span className="text-white font-bold text-sm">{calculations.Q}</span>
-                  </div>
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-bold text-red-600">Q</div>
-                </div>
-              </div>
-              <div className="flex justify-center">
-                <div className="relative">
-                  <div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-red-700 transition-colors">
-                    <span className="text-white font-bold text-sm">{calculations.R}</span>
-                  </div>
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-bold text-red-600">R</div>
-                </div>
-              </div>
-              <div className="flex justify-center">
-                <div className="relative">
-                  <div className="w-8 h-8 bg-red-700 rounded-full flex items-center justify-center cursor-pointer hover:bg-red-800 transition-colors">
-                    <span className="text-white font-bold text-sm">{calculations.S}</span>
-                  </div>
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-bold text-red-700">S</div>
-                </div>
-              </div>
-              <div></div>
-              <div></div>
-
-              {/* Row 7 - Final challenges */}
-              <div></div>
-              <div></div>
-              <div className="flex justify-center">
-                <div className="relative">
-                  <div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-red-700 transition-colors">
-                    <span className="text-white font-bold text-sm">{calculations.P}</span>
-                  </div>
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-bold text-red-600">P</div>
-                </div>
-              </div>
-              <div></div>
-              <div></div>
-              <div></div>
+    return (
+      <div className="flex flex-col lg:flex-row gap-8 max-w-7xl mx-auto">
+        {/* Main Pyramid Diagram - Exact pinnacle.png Layout */}
+        <div className="flex-1 flex justify-center">
+          <div className="relative" style={{ width: '700px', height: '600px' }}>
+            
+            {/* TOP LEVEL - H (TU DESTINO) */}
+            <div className="absolute" style={{ top: '0px', left: '50%', transform: 'translateX(-50%)' }}>
+              <NumberCircle 
+                number={calculations.H} 
+                letter="H" 
+                label="TU DESTINO"
+                color="bg-green-500"
+              />
             </div>
-          </div>
 
-          {/* Legend/Descriptions Panel */}
-          <div className="w-full lg:w-1/3 lg:pl-6">
-            <div className="space-y-4">
-              <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                <h4 className="font-bold text-blue-800 mb-3">Tu Pináculo Personal</h4>
-                <div className="space-y-2 text-sm">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <div className="w-3 h-3 bg-green-600 rounded-full mr-2"></div>
-                      <span>A. Número de Karma - Mi tarea pendiente</span>
-                    </div>
-                    <span className="font-bold text-green-600">{calculations.A}</span>
+            {/* SECOND LEVEL - G and J */}
+            <div className="absolute" style={{ top: '80px', left: '30%', transform: 'translateX(-50%)' }}>
+              <NumberCircle 
+                number={calculations.G} 
+                letter="G" 
+                label="RE-IDENTIFICACIÓN"
+                color="bg-green-400"
+              />
+            </div>
+            <div className="absolute" style={{ top: '80px', left: '70%', transform: 'translateX(-50%)' }}>
+              <NumberCircle 
+                number={calculations.J} 
+                letter="J" 
+                label="MI ESPEJO"
+                color="bg-green-400"
+              />
+            </div>
+
+            {/* THIRD LEVEL - E, I, F */}
+            <div className="absolute" style={{ top: '160px', left: '20%', transform: 'translateX(-50%)' }}>
+              <NumberCircle 
+                number={calculations.E} 
+                letter="E" 
+                label="IMPLANTACIÓN"
+                color="bg-green-300"
+              />
+            </div>
+            <div className="absolute" style={{ top: '160px', left: '50%', transform: 'translateX(-50%)' }}>
+              <NumberCircle 
+                number={calculations.I} 
+                letter="I" 
+                label="SUBCONSCIENTE"
+                color="bg-green-300"
+              />
+            </div>
+            <div className="absolute" style={{ top: '160px', left: '80%', transform: 'translateX(-50%)' }}>
+              <NumberCircle 
+                number={calculations.F} 
+                letter="F" 
+                label="ENCUENTRO MAESTRO"
+                color="bg-green-300"
+              />
+            </div>
+
+            {/* CENTER DIAMOND - A, B, C, D */}
+            <div className="absolute" style={{ top: '240px', left: '15%', transform: 'translateX(-50%)' }}>
+              <NumberCircle 
+                number={calculations.A} 
+                letter="A" 
+                label="TAREA PENDIENTE"
+                color="bg-purple-400"
+              />
+            </div>
+            <div className="absolute" style={{ top: '240px', left: '40%', transform: 'translateX(-50%)' }}>
+              <NumberCircle 
+                number={calculations.B} 
+                letter="B" 
+                label="MI ESENCIA"
+                color="bg-purple-400"
+              />
+            </div>
+            <div className="absolute" style={{ top: '240px', left: '60%', transform: 'translateX(-50%)' }}>
+              <NumberCircle 
+                number={calculations.C} 
+                letter="C" 
+                label="VIDA PASADA"
+                color="bg-purple-400"
+              />
+            </div>
+            <div className="absolute" style={{ top: '240px', left: '85%', transform: 'translateX(-50%)' }}>
+              <NumberCircle 
+                number={calculations.D} 
+                letter="D" 
+                label="MI MÁSCARA"
+                color="bg-purple-400"
+              />
+            </div>
+
+            {/* LOWER LEVEL 1 - K, O, L */}
+            <div className="absolute" style={{ top: '320px', left: '25%', transform: 'translateX(-50%)' }}>
+              <NumberCircle 
+                number={calculations.K} 
+                letter="K" 
+                label="ADOLESCENCIA"
+                color="bg-red-500"
+              />
+            </div>
+            <div className="absolute" style={{ top: '320px', left: '50%', transform: 'translateX(-50%)' }}>
+              <NumberCircle 
+                number={calculations.O} 
+                letter="O" 
+                label="INCONSCIENTE NEG."
+                color="bg-red-500"
+              />
+            </div>
+            <div className="absolute" style={{ top: '320px', left: '75%', transform: 'translateX(-50%)' }}>
+              <NumberCircle 
+                number={calculations.L} 
+                letter="L" 
+                label="JUVENTUD"
+                color="bg-red-500"
+              />
+            </div>
+
+            {/* LOWER LEVEL 2 - M */}
+            <div className="absolute" style={{ top: '400px', left: '50%', transform: 'translateX(-50%)' }}>
+              <NumberCircle 
+                number={calculations.M} 
+                letter="M" 
+                label="ADULTEZ"
+                color="bg-red-400"
+              />
+            </div>
+
+            {/* W (TRIPLICIDAD) - LEFT SIDE */}
+            {W !== 0 && (
+              <div className="absolute" style={{ top: '320px', left: '5%', transform: 'translateX(-50%)' }}>
+                <NumberCircle 
+                  number={W} 
+                  letter="W" 
+                  label="TRIPLICIDAD"
+                  color="bg-red-600"
+                />
+              </div>
+            )}
+
+            {/* LOWER LEVEL 3 - P, N */}
+            <div className="absolute" style={{ top: '400px', left: '30%', transform: 'translateX(-50%)' }}>
+              <NumberCircle 
+                number={calculations.P} 
+                letter="P" 
+                label="MI SOMBRA"
+                color="bg-red-400"
+              />
+            </div>
+            <div className="absolute" style={{ top: '400px', left: '70%', transform: 'translateX(-50%)' }}>
+              <NumberCircle 
+                number={calculations.N} 
+                letter="N" 
+                label="ADULTO MAYOR"
+                color="bg-red-400"
+              />
+            </div>
+
+            {/* BOTTOM LEVEL - Q, R, S */}
+            <div className="absolute" style={{ top: '480px', left: '25%', transform: 'translateX(-50%)' }}>
+              <NumberCircle 
+                number={calculations.Q} 
+                letter="Q" 
+                label="SER INFERIOR 1"
+                color="bg-red-300"
+              />
+            </div>
+            <div className="absolute" style={{ top: '480px', left: '50%', transform: 'translateX(-50%)' }}>
+              <NumberCircle 
+                number={calculations.R} 
+                letter="R" 
+                label="SER INFERIOR 2"
+                color="bg-red-300"
+              />
+            </div>
+            <div className="absolute" style={{ top: '480px', left: '75%', transform: 'translateX(-50%)' }}>
+              <NumberCircle 
+                number={calculations.S} 
+                letter="S" 
+                label="SER INFERIOR 3"
+                color="bg-red-300"
+              />
+            </div>
+
+            {/* Full Connecting Lines - Exact from pinnacle.png */}
+            <svg className="absolute top-0 left-0 w-full h-full pointer-events-none" style={{ zIndex: -1 }}>
+              {/* H to G/J */}
+              <line x1="50%" y1="30" x2="30%" y2="110" stroke="#3B82F6" strokeWidth="2" />
+              <line x1="50%" y1="30" x2="70%" y2="110" stroke="#3B82F6" strokeWidth="2" />
+              
+              {/* G to E/I */}
+              <line x1="30%" y1="110" x2="20%" y2="190" stroke="#3B82F6" strokeWidth="2" />
+              <line x1="30%" y1="110" x2="50%" y2="190" stroke="#3B82F6" strokeWidth="2" />
+              
+              {/* J to I/F */}
+              <line x1="70%" y1="110" x2="50%" y2="190" stroke="#3B82F6" strokeWidth="2" />
+              <line x1="70%" y1="110" x2="80%" y2="190" stroke="#3B82F6" strokeWidth="2" />
+              
+              {/* E to A */}
+              <line x1="20%" y1="190" x2="15%" y2="270" stroke="#3B82F6" strokeWidth="2" />
+              
+              {/* I to B */}
+              <line x1="50%" y1="190" x2="40%" y2="270" stroke="#3B82F6" strokeWidth="2" />
+              
+              {/* F to C */}
+              <line x1="80%" y1="190" x2="60%" y2="270" stroke="#3B82F6" strokeWidth="2" />
+              
+              {/* J to D diagonal */}
+              <line x1="70%" y1="110" x2="85%" y2="270" stroke="#3B82F6" strokeWidth="2" />
+              
+              {/* Center diamond */}
+              <line x1="15%" y1="270" x2="40%" y2="270" stroke="#3B82F6" strokeWidth="2" />
+              <line x1="40%" y1="270" x2="60%" y2="270" stroke="#3B82F6" strokeWidth="2" />
+              <line x1="60%" y1="270" x2="85%" y2="270" stroke="#3B82F6" strokeWidth="2" />
+              
+              {/* Center to lower K/O/L */}
+              <line x1="15%" y1="270" x2="25%" y2="350" stroke="#3B82F6" strokeWidth="2" />
+              <line x1="40%" y1="270" x2="25%" y2="350" stroke="#3B82F6" strokeWidth="2" />
+              <line x1="40%" y1="270" x2="50%" y2="350" stroke="#3B82F6" strokeWidth="2" />
+              <line x1="60%" y1="270" x2="50%" y2="350" stroke="#3B82F6" strokeWidth="2" />
+              <line x1="60%" y1="270" x2="75%" y2="350" stroke="#3B82F6" strokeWidth="2" />
+              <line x1="85%" y1="270" x2="75%" y2="350" stroke="#3B82F6" strokeWidth="2" />
+              
+              {/* Lower to M */}
+              <line x1="25%" y1="350" x2="50%" y2="430" stroke="#3B82F6" strokeWidth="2" />
+              <line x1="50%" y1="350" x2="50%" y2="430" stroke="#3B82F6" strokeWidth="2" />
+              <line x1="75%" y1="350" x2="50%" y2="430" stroke="#3B82F6" strokeWidth="2" />
+              
+              {/* M to P/N */}
+              <line x1="50%" y1="430" x2="30%" y2="430" stroke="#3B82F6" strokeWidth="2" />
+              <line x1="50%" y1="430" x2="70%" y2="430" stroke="#3B82F6" strokeWidth="2" />
+              
+              {/* P/N to Q/R/S */}
+              <line x1="30%" y1="430" x2="25%" y2="510" stroke="#3B82F6" strokeWidth="2" />
+              <line x1="30%" y1="430" x2="50%" y2="510" stroke="#3B82F6" strokeWidth="2" />
+              <line x1="70%" y1="430" x2="50%" y2="510" stroke="#3B82F6" strokeWidth="2" />
+              <line x1="70%" y1="430" x2="75%" y2="510" stroke="#3B82F6" strokeWidth="2" />
+              
+              {/* W connection to K */}
+              <line x1="5%" y1="350" x2="25%" y2="350" stroke="#3B82F6" strokeWidth="2" />
+            </svg>
+          </div>
+        </div>
+
+        {/* Legend/Descriptions Panel from PPT */}
+        <div className="w-full lg:w-1/3 lg:pl-6">
+          <div className="space-y-4">
+            <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+              <h4 className="font-bold text-blue-800 mb-3">Tu Pináculo Personal (PPT CLASE 1)</h4>
+              <div className="space-y-2 text-sm">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <div className="w-3 h-3 bg-purple-500 rounded-full mr-2"></div>
+                    <span>A. Tarea No Aprendida</span>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <div className="w-3 h-3 bg-blue-600 rounded-full mr-2"></div>
-                      <span>B. Número personal - ¿Quién soy?</span>
-                    </div>
-                    <span className="font-bold text-blue-600">{calculations.B}</span>
+                  <span className="font-bold text-purple-600">{calculations.A}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <div className="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+                    <span>B. Mi Esencia</span>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <div className="w-3 h-3 bg-green-600 rounded-full mr-2"></div>
-                      <span>C. Número de vida pasada - ¿Quién fui?</span>
-                    </div>
-                    <span className="font-bold text-green-600">{calculations.C}</span>
+                  <span className="font-bold text-blue-600">{calculations.B}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <div className="w-3 h-3 bg-purple-400 rounded-full mr-2"></div>
+                    <span>C. Vida Pasada</span>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <div className="w-3 h-3 bg-purple-600 rounded-full mr-2"></div>
-                      <span>D. Número de personalidad - Mi máscara</span>
-                    </div>
-                    <span className="font-bold text-purple-600">{calculations.D}</span>
+                  <span className="font-bold text-purple-600">{calculations.C}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <div className={`w-3 h-3 ${calculations.D === 22 ? 'bg-yellow-600' : 'bg-purple-600'} rounded-full mr-2`}></div>
+                    <span>D. Mi Máscara</span>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <div className="w-3 h-3 bg-purple-500 rounded-full mr-2"></div>
-                      <span>I. Núm. del subconsciente - La guía a mi destino</span>
-                    </div>
-                    <span className="font-bold text-purple-600">{calculations.I}</span>
+                  <span className={`font-bold ${calculations.D === 22 ? 'text-yellow-600' : 'text-purple-600'}`}>{calculations.D}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <div className="w-3 h-3 bg-yellow-400 rounded-full mr-2"></div>
+                    <span>I. Núm. del Subconsciente</span>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <div className="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
-                      <span>J. Número del Inconsciente - Mi espejo</span>
-                    </div>
-                    <span className="font-bold text-blue-600">{calculations.J}</span>
+                  <span className="font-bold text-yellow-600">{calculations.I}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <div className={`w-3 h-3 ${calculations.J === 11 ? 'bg-yellow-500' : 'bg-blue-600'} rounded-full mr-2`}></div>
+                    <span>J. Número del Inconsciente</span>
                   </div>
+                  <span className={`font-bold ${calculations.J === 11 ? 'text-yellow-600' : 'text-blue-600'}`}>{calculations.J}</span>
                 </div>
               </div>
+            </div>
 
-              <div className="bg-red-50 p-4 rounded-lg border border-red-200">
-                <h4 className="font-bold text-red-800 mb-3">Desafíos y Sombras</h4>
-                <div className="space-y-1 text-xs">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <div className="w-2 h-2 bg-red-600 rounded-full mr-2"></div>
-                      <span>P. Número de sombra</span>
-                    </div>
-                    <span className="font-bold text-red-600">{calculations.P}</span>
+            <div className="bg-red-50 p-4 rounded-lg border border-red-200">
+              <h4 className="font-bold text-red-800 mb-3">Números Negativos</h4>
+              <div className="space-y-2 text-sm">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <div className="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
+                    <span>P. Mi Sombra</span>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <div className="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
-                      <span>O. Número de inconsciente Negativo</span>
-                    </div>
-                    <span className="font-bold text-red-600">{calculations.O}</span>
+                  <span className="font-bold text-red-600">{calculations.P}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <div className="w-3 h-3 bg-red-600 rounded-full mr-2"></div>
+                    <span>O. Número de Inconsciente Negativo</span>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <div className="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
-                      <span>Q. Ser inferior heredado por familia</span>
-                    </div>
-                    <span className="font-bold text-red-600">{calculations.Q}</span>
+                  <span className="font-bold text-red-600">{calculations.O}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <div className="w-3 h-3 bg-red-600 rounded-full mr-2"></div>
+                    <span>Q. Ser Inferior 1</span>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <div className="w-2 h-2 bg-red-600 rounded-full mr-2"></div>
-                      <span>R. Ser inferior consciente</span>
-                    </div>
-                    <span className="font-bold text-red-600">{calculations.R}</span>
+                  <span className="font-bold text-red-600">{calculations.Q}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <div className="w-3 h-3 bg-red-600 rounded-full mr-2"></div>
+                    <span>R. Ser Inferior 2</span>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <div className="w-2 h-2 bg-red-700 rounded-full mr-2"></div>
-                      <span>S. Ser inferior latente</span>
-                    </div>
-                    <span className="font-bold text-red-600">{calculations.S}</span>
+                  <span className="font-bold text-red-600">{calculations.R}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <div className={`w-3 h-3 ${calculations.S === 11 ? 'bg-yellow-600' : 'bg-red-600'} rounded-full mr-2`}></div>
+                    <span>S. Ser Inferior 3</span>
                   </div>
+                  <span className={`font-bold ${calculations.S === 11 ? 'text-yellow-600' : 'text-red-600'}`}>{calculations.S}</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="space-y-8">
+      {/* Header */}
+      <div className="text-center">
+        <h3 className="text-2xl font-bold text-purple-900 mb-2">🎭 DIAGRAMA DEL PINÁCULO</h3>
+        <p className="text-gray-600">
+          Visualización interactiva de tu mapa numerológico basado en tu fecha de nacimiento.
+        </p>
+      </div>
+
+      {/* Main Diagram */}
+      <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-6">
+        {renderDiagram()}
       </div>
 
       {/* Detailed Descriptions */}
