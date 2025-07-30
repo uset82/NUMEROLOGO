@@ -64,7 +64,7 @@ Para H:
 
 #### **🔷 Aspectos Especiales (W, Z)**
 - W = Nombre completo en sistema Caldeo (Triplicidad)
-- Z = Últimos 2 dígitos del año (Regalo divino)
+- Z = Suma de todos los dígitos del año completo (Regalo divino)
 
 ### 4. **Validación Exitosa: Carlos Carpio**
 

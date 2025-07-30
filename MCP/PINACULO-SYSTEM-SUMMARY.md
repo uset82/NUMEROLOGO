@@ -106,7 +106,7 @@ S=1, T=2, U=3, V=4, W=5, X=6, Y=7, Z=8
 
 #### **REGALO DIVINO:**
 ```
-Z = Últimos 2 dígitos del año de nacimiento (reducidos)
+Z = Suma de todos los dígitos del año completo (reducidos)
 ```
 
 ---

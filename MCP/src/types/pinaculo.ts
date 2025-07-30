@@ -300,7 +300,9 @@ export class PinaculoCalculator {
 
     // Special numbers
     results.W = this.calculateTriplicidad(results); // Changed to use triplicidad rule
-    results.Z = this.reduceNumber(year % 100);
+    // Z calculation: use full year digits instead of last 2
+    const yearSum = year.toString().split('').map(Number).reduce((a, b) => a + b, 0);
+    results.Z = this.reduceNumber(yearSum);
 
     // Calculate T (absent numbers)
     const absent = this.calculateAbsentNumbers(results);

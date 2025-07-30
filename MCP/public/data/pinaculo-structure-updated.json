@@ -275,7 +275,7 @@
       "id": "Z",
       "letter": "Z",
       "name": "REGALO DIVINO",
-      "formula": "Últimos 2 dígitos del año",
+      "formula": "Suma dígitos año completo",
       "type": "special",
       "level": 4,
       "position": { "x": 95, "y": 60 },
