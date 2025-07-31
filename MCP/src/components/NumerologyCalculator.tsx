@@ -192,10 +192,10 @@ export function NumerologyCalculator({ isPreviewMode = false, isDraggableMode = 
         {result && (
           <div className="space-y-8">
             
-            {/* Vibraciones del Nombre */}
+            {/* La Energía de tu Nombre */}
             <div className="numerology-card">
               <h2 className="text-3xl font-bold text-purple-900 mb-6 text-center">
-                ✨ VIBRACIONES DE TU NOMBRE ✨
+                ✨ LA ENERGÍA DE TU NOMBRE ✨
               </h2>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -206,15 +206,15 @@ export function NumerologyCalculator({ isPreviewMode = false, isDraggableMode = 
                 </div>
                 
                 <div className="bg-gradient-to-br from-emerald-100 to-emerald-200 p-6 rounded-lg border-l-4 border-emerald-600">
-                  <h3 className="text-xl font-bold text-emerald-900 mb-2">🎭 MI PERSONALIDAD</h3>
+                  <h3 className="text-xl font-bold text-emerald-900 mb-2">🎭 MI EXPRESIÓN</h3>
                   <div className="text-4xl font-bold text-emerald-700">{result.summary.personalidad}</div>
-                  <p className="text-emerald-600 mt-2">Cómo te ven otros</p>
+                  <p className="text-emerald-600 mt-2">Cómo te expresas</p>
                 </div>
                 
                 <div className="bg-gradient-to-br from-orange-100 to-orange-200 p-6 rounded-lg border-l-4 border-orange-600">
-                  <h3 className="text-xl font-bold text-orange-900 mb-2">⭐ MI NÚMERO PERSONAL</h3>
+                  <h3 className="text-xl font-bold text-orange-900 mb-2">⭐ PODER DEL NOMBRE</h3>
                   <div className="text-4xl font-bold text-orange-700">{result.summary.numeroPersonal}</div>
-                  <p className="text-orange-600 mt-2">Energía de tu nombre</p>
+                  <p className="text-orange-600 mt-2">Fuerza vibracional total</p>
                 </div>
               </div>
             </div>
