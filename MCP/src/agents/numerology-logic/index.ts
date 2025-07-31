@@ -27,6 +27,7 @@ export interface NumerologyReport {
     J: number; // MI ESPEJO
     X: number; // REACCIÓN
     Y: number; // MISIÓN
+    Z: number; // REGALO DIVINO
   };
   
   // Números negativos del Pináculo
@@ -182,7 +183,7 @@ export class NumerologyLogicAgent {
 
       return {
         baseNumbers: { A, B, C },
-        positiveNumbers: { D, E, F, G, H, I, J, X, Y },
+        positiveNumbers: { D, E, F, G, H, I, J, X, Y, Z },
         negativeNumbers: { K, L, M, N, O, P, Q, R, S },
         W,
         nameNumbers: {
@@ -229,6 +230,7 @@ export class NumerologyLogicAgent {
       'J': `MI ESPEJO (${numbers.J}): Cómo te reflejas en las relaciones con otros.`,
       'X': `REACCIÓN (${numbers.X}): Tu forma instintiva de responder ante los desafíos.`,
       'Y': `MISIÓN (${numbers.Y}): Tu propósito de vida y contribución al mundo.`,
+      'Z': `REGALO DIVINO (${numbers.Z}): Tu don especial y talento natural para esta vida.`,
       
       // Números Negativos
       'K': `ADOLESCENCIA (${numbers.K}): Patrones establecidos durante la adolescencia.`,
@@ -245,10 +247,7 @@ export class NumerologyLogicAgent {
       // Números del Nombre
       'ALMA': `ALMA (${numbers.alma}): Tu motivación más profunda y deseos del corazón.`,
       'PERSONALIDAD': `PERSONALIDAD (${numbers.personality}): La imagen que proyectas hacia el exterior.`,
-      'NUMERO_PERSONAL': `NÚMERO PERSONAL (${numbers.nameTotal}): La energía total de tu nombre completo.`,
-      
-      // Regalo Divino
-      'Z': `REGALO DIVINO (${numbers.Z}): Tu don especial y talento natural para esta vida.`
+      'NUMERO_PERSONAL': `NÚMERO PERSONAL (${numbers.nameTotal}): La energía total de tu nombre completo.`
     };
   }
 

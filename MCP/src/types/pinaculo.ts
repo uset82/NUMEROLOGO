@@ -72,6 +72,7 @@ export interface PinaculoResults {
   // Hidden numbers
   I: number; // INCONSCIENTE (E+F+G)
   J: number; // MI ESPEJO (D+H)
+  Z: number; // REGALO DIVINO (últimos 2 dígitos año)
   
   // Negative numbers
   K: number; // ADOLESCENCIA (|A-B|)
@@ -86,7 +87,6 @@ export interface PinaculoResults {
   
   // Special numbers
   W: number; // TRIPLICIDAD (nombre completo Caldeo)
-  Z: number; // REGALO DIVINO (últimos 2 dígitos año)
   T: number | number[]; // AUSENTES (números que no aparecen en el Pináculo)
 }
 
@@ -300,9 +300,8 @@ export class PinaculoCalculator {
 
     // Special numbers
     results.W = this.calculateTriplicidad(results); // Changed to use triplicidad rule
-    // Z calculation: use full year digits instead of last 2
-    const yearSum = year.toString().split('').map(Number).reduce((a, b) => a + b, 0);
-    results.Z = this.reduceNumber(yearSum);
+    // Z calculation: use last 2 digits of year (CORRECTED)
+    results.Z = this.calculateZ(year);
 
     // Calculate T (absent numbers)
     const absent = this.calculateAbsentNumbers(results);

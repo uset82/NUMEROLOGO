@@ -1,12 +1,17 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useClientOnly } from '@/utils/clientOnly'
 import { numerologyLogicAgent } from '@/agents/numerology-logic'
 import type { NumerologyReport } from '@/agents/numerology-logic'
 import PinaculoDiagram from './PinaculoDiagram'
 
-export function NumerologyCalculator() {
+interface NumerologyCalculatorProps {
+  isPreviewMode?: boolean
+  isDraggableMode?: boolean
+}
+
+export function NumerologyCalculator({ isPreviewMode = false, isDraggableMode = false }: NumerologyCalculatorProps) {
   const [name, setName] = useState('')
   const [birthDate, setBirthDate] = useState('')
   const [result, setResult] = useState<NumerologyReport | null>(null)
@@ -14,19 +19,35 @@ export function NumerologyCalculator() {
   const [error, setError] = useState<string | null>(null)
   const isClient = useClientOnly()
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
-    if (!name.trim() || !birthDate) {
-      setError('Por favor ingresa tu nombre completo y fecha de nacimiento')
-      return
-    }
+  // Preview mode data
+  const previewData = {
+    name: 'Carlos Carpio',
+    birthDate: '06/05/1982'
+  }
 
-    // Validate date format
-    const dateRegex = /^\d{1,2}\/\d{1,2}\/\d{4}$/
-    if (!dateRegex.test(birthDate)) {
-      setError('Por favor ingresa la fecha en formato DD/MM/YYYY (ejemplo: 06/05/1982)')
-      return
+  // Auto-calculate in preview mode
+  useEffect(() => {
+    if (isPreviewMode && isClient && !result) {
+      handleCalculate(true)
+    }
+  }, [isPreviewMode, isClient])
+
+  const handleCalculate = async (isPreview = false) => {
+    const currentName = isPreview ? previewData.name : name
+    const currentBirthDate = isPreview ? previewData.birthDate : birthDate
+    
+    if (!isPreview) {
+      if (!currentName.trim() || !currentBirthDate) {
+        setError('Por favor ingresa tu nombre completo y fecha de nacimiento')
+        return
+      }
+
+      // Validate date format
+      const dateRegex = /^\d{1,2}\/\d{1,2}\/\d{4}$/
+      if (!dateRegex.test(currentBirthDate)) {
+        setError('Por favor ingresa la fecha en formato DD/MM/YYYY (ejemplo: 06/05/1982)')
+        return
+      }
     }
 
     setCalculating(true)
@@ -36,8 +57,8 @@ export function NumerologyCalculator() {
       console.log('🔮 Calculando tu Mapa Numerológico...')
       
       const report = await numerologyLogicAgent.generateReport({
-        name: name.trim(),
-        birthDate
+        name: currentName.trim(),
+        birthDate: currentBirthDate
       })
       
       setResult(report)
@@ -51,9 +72,14 @@ export function NumerologyCalculator() {
     }
   }
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    await handleCalculate(false)
+  }
+
   if (!isClient) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100 flex items-center justify-center">
+      <div className={`${isDraggableMode ? 'p-4' : 'min-h-screen'} bg-gradient-to-br from-purple-50 to-indigo-100 flex items-center justify-center`}>
         <div className="numerology-card max-w-md mx-auto p-8">
           <div className="animate-pulse">
             <div className="h-6 bg-purple-200 rounded mb-4"></div>
@@ -66,21 +92,32 @@ export function NumerologyCalculator() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100 py-12 px-4">
-      <div className="max-w-4xl mx-auto">
+    <div className={`${isDraggableMode ? 'p-2' : 'min-h-screen'} bg-gradient-to-br from-purple-50 to-indigo-100 ${isDraggableMode ? '' : 'py-12 px-4'}`}>
+      <div className={`${isDraggableMode ? '' : 'max-w-4xl mx-auto'}`}>
         
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-purple-900 mb-4">
-            🔮 MI MAPA NUMEROLÓGICO
-          </h1>
-          <p className="text-xl text-purple-700">
-            Sistema del Pináculo - Cálculos Exactos
-          </p>
-        </div>
+        {!isDraggableMode && (
+          <div className="text-center mb-12">
+            <h1 className="text-5xl font-bold text-purple-900 mb-4">
+              🔮 MI MAPA NUMEROLÓGICO
+            </h1>
+            <p className="text-xl text-purple-700">
+              Sistema del Pináculo - Cálculos Exactos
+            </p>
+          </div>
+        )}
 
         {/* Input Form */}
         <div className="numerology-card mb-8">
+          {isPreviewMode && (
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+              <div className="flex items-center text-yellow-800">
+                <span className="mr-2">👁️</span>
+                <strong>Modo Vista Previa:</strong> Mostrando ejemplo con datos de muestra
+              </div>
+            </div>
+          )}
+          
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="name" className="block text-lg font-medium text-purple-900 mb-2">
@@ -89,12 +126,20 @@ export function NumerologyCalculator() {
               <input
                 type="text"
                 id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={isPreviewMode ? previewData.name : name}
+                onChange={(e) => !isPreviewMode && setName(e.target.value)}
                 placeholder="Ej: CARLOS CARPIO"
-                className="w-full px-4 py-3 border border-purple-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg"
+                className={`w-full px-4 py-3 border border-purple-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg ${
+                  isPreviewMode ? 'bg-gray-100 cursor-not-allowed' : ''
+                }`}
                 required
+                disabled={isPreviewMode}
               />
+              {isPreviewMode && (
+                <p className="text-sm text-gray-600 mt-1">
+                  Datos de ejemplo. Cambia a "Mi Cálculo Personal" para ingresar tus datos.
+                </p>
+              )}
             </div>
 
             <div>
@@ -104,11 +149,14 @@ export function NumerologyCalculator() {
               <input
                 type="text"
                 id="birthDate"
-                value={birthDate}
-                onChange={(e) => setBirthDate(e.target.value)}
+                value={isPreviewMode ? previewData.birthDate : birthDate}
+                onChange={(e) => !isPreviewMode && setBirthDate(e.target.value)}
                 placeholder="06/05/1982"
-                className="w-full px-4 py-3 border border-purple-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg"
+                className={`w-full px-4 py-3 border border-purple-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg ${
+                  isPreviewMode ? 'bg-gray-100 cursor-not-allowed' : ''
+                }`}
                 required
+                disabled={isPreviewMode}
               />
               <p className="text-sm text-purple-600 mt-1">
                 Formato: DD/MM/YYYY (ejemplo: 06/05/1982)
@@ -121,20 +169,22 @@ export function NumerologyCalculator() {
               </div>
             )}
 
-            <button
-              type="submit"
-              disabled={calculating}
-              className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 px-6 rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all duration-200 font-semibold text-lg disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {calculating ? (
-                <span className="flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-3"></div>
-                  Calculando tu Mapa...
-                </span>
-              ) : (
-                '🔮 Calcular Mi Mapa Numerológico'
-              )}
-            </button>
+            {!isPreviewMode && (
+              <button
+                type="submit"
+                disabled={calculating}
+                className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 px-6 rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all duration-200 font-semibold text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {calculating ? (
+                  <span className="flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-3"></div>
+                    Calculando tu Mapa...
+                  </span>
+                ) : (
+                  '🔮 Calcular Mi Mapa Numerológico'
+                )}
+              </button>
+            )}
           </form>
         </div>
 
@@ -280,10 +330,10 @@ export function NumerologyCalculator() {
                 Visualización interactiva de tu mapa numerológico basado en tu fecha de nacimiento.
               </p>
               <PinaculoDiagram 
-                birthDay={parseInt(birthDate.split('/')[0])}
-                birthMonth={parseInt(birthDate.split('/')[1])}
-                birthYear={parseInt(birthDate.split('/')[2])}
-                name={name}
+                birthDay={parseInt((isPreviewMode ? previewData.birthDate : birthDate).split('/')[0])}
+                birthMonth={parseInt((isPreviewMode ? previewData.birthDate : birthDate).split('/')[1])}
+                birthYear={parseInt((isPreviewMode ? previewData.birthDate : birthDate).split('/')[2])}
+                name={isPreviewMode ? previewData.name : name}
               />
             </div>
 

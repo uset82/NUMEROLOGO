@@ -78,10 +78,7 @@ export default function Home() {
                 📄 Modo Normal
               </button>
               <button
-                onClick={() => {
-                  console.log('Switching to draggable mode')
-                  setIsDraggableMode(true)
-                }}
+                onClick={() => setIsDraggableMode(true)}
                 className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
                   isDraggableMode
                     ? 'bg-indigo-600 text-white shadow-md'
@@ -101,11 +98,6 @@ export default function Home() {
             Modo Arrastrable Activo - Arrastra las ventanas por la barra superior
           </div>
         )}
-
-        {/* Debug info */}
-        <div className="mt-2 text-xs text-gray-500">
-          Debug: isDraggableMode = {isDraggableMode.toString()}
-        </div>
 
         {/* Preview Mode Indicator */}
         {isPreviewMode && (
@@ -154,47 +146,32 @@ export default function Home() {
 
       {/* Draggable Mode Instructions */}
       {isDraggableMode && (
-        <>
-          {/* Test draggable element */}
-          <DraggableContainer 
-            title="🧪 Elemento de Prueba"
-            initialPosition={{ x: 400, y: 200 }}
-            className="w-[300px]"
-            minimizable={true}
-          >
-            <div className="p-4 bg-yellow-50">
-              <p className="text-sm">Este es un elemento de prueba para verificar que el drag funciona.</p>
-              <p className="text-xs text-gray-600 mt-2">Arrastra por la barra superior morada.</p>
+        <DraggableContainer 
+          title="📋 Instrucciones del Modo Arrastrable"
+          initialPosition={{ x: 20, y: 50 }}
+          className="w-[350px]"
+          minimizable={true}
+        >
+          <div className="p-4 space-y-3">
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-3 rounded-lg">
+              <h3 className="font-semibold text-blue-900 mb-2">🖱️ Cómo usar:</h3>
+              <ul className="text-sm text-blue-800 space-y-1">
+                <li>• Arrastra las ventanas por la barra superior</li>
+                <li>• Usa 🎯 para centrar una ventana</li>
+                <li>• Usa ⬇️ para minimizar/expandir</li>
+                <li>• Cambia a "Modo Normal" para vista tradicional</li>
+              </ul>
             </div>
-          </DraggableContainer>
-          
-          <DraggableContainer 
-            title="📋 Instrucciones del Modo Arrastrable"
-            initialPosition={{ x: 20, y: 50 }}
-            className="w-[350px]"
-            minimizable={true}
-          >
-            <div className="p-4 space-y-3">
-              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-3 rounded-lg">
-                <h3 className="font-semibold text-blue-900 mb-2">🖱️ Cómo usar:</h3>
-                <ul className="text-sm text-blue-800 space-y-1">
-                  <li>• Arrastra las ventanas por la barra superior</li>
-                  <li>• Usa 🎯 para centrar una ventana</li>
-                  <li>• Usa ⬇️ para minimizar/expandir</li>
-                  <li>• Cambia a "Modo Normal" para vista tradicional</li>
-                </ul>
-              </div>
-              <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-3 rounded-lg">
-                <h3 className="font-semibold text-green-900 mb-2">✨ Ventajas:</h3>
-                <ul className="text-sm text-green-800 space-y-1">
-                  <li>• Organiza tu espacio de trabajo</li>
-                  <li>• Compara resultados lado a lado</li>
-                  <li>• Experiencia de escritorio moderna</li>
-                </ul>
-              </div>
+            <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-3 rounded-lg">
+              <h3 className="font-semibold text-green-900 mb-2">✨ Ventajas:</h3>
+              <ul className="text-sm text-green-800 space-y-1">
+                <li>• Organiza tu espacio de trabajo</li>
+                <li>• Compara resultados lado a lado</li>
+                <li>• Experiencia de escritorio moderna</li>
+              </ul>
             </div>
-          </DraggableContainer>
-        </>
+          </div>
+        </DraggableContainer>
       )}
 
       {/* About Section */}

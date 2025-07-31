@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PinaculoCalculator, PinaculoResults } from '@/types/pinaculo';
 
 interface PinaculoCalculatorCompleteProps {
   className?: string;
+  isPreviewMode?: boolean;
 }
 
 interface PersonData {
@@ -14,7 +15,7 @@ interface PersonData {
   year: number;
 }
 
-export default function PinaculoCalculatorComplete({ className = '' }: PinaculoCalculatorCompleteProps) {
+export default function PinaculoCalculatorComplete({ className = '', isPreviewMode = false }: PinaculoCalculatorCompleteProps) {
   const [personData, setPersonData] = useState<PersonData>({
     name: '',
     day: 1,
@@ -24,8 +25,25 @@ export default function PinaculoCalculatorComplete({ className = '' }: PinaculoC
   const [results, setResults] = useState<PinaculoResults | null>(null);
   const [isCalculating, setIsCalculating] = useState(false);
 
-  const handleCalculate = () => {
-    if (!personData.name.trim()) {
+  // Preview mode data
+  const previewData = {
+    name: 'Carlos Carpio',
+    day: 6,
+    month: 5,
+    year: 1982
+  };
+
+  // Auto-calculate in preview mode
+  useEffect(() => {
+    if (isPreviewMode && !results) {
+      handleCalculate(true);
+    }
+  }, [isPreviewMode]);
+
+  const handleCalculate = (isPreview = false) => {
+    const currentData = isPreview ? previewData : personData;
+    
+    if (!isPreview && !currentData.name.trim()) {
       alert('Por favor ingresa un nombre');
       return;
     }
@@ -33,10 +51,10 @@ export default function PinaculoCalculatorComplete({ className = '' }: PinaculoC
     setIsCalculating(true);
     try {
       const pinaculoResults = PinaculoCalculator.calculateComplete(
-        personData.name,
-        personData.day,
-        personData.month,
-        personData.year
+        currentData.name,
+        currentData.day,
+        currentData.month,
+        currentData.year
       );
       setResults(pinaculoResults);
     } catch (error) {
@@ -99,6 +117,16 @@ export default function PinaculoCalculatorComplete({ className = '' }: PinaculoC
       {/* Input Form */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
         <h2 className="text-xl font-semibold mb-4">Datos Personales</h2>
+        
+        {isPreviewMode && (
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+            <div className="flex items-center text-yellow-800">
+              <span className="mr-2">👁️</span>
+              <strong>Modo Vista Previa:</strong> Mostrando ejemplo con "Carlos Carpio" (06/05/1982)
+            </div>
+          </div>
+        )}
+        
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -106,10 +134,13 @@ export default function PinaculoCalculatorComplete({ className = '' }: PinaculoC
             </label>
             <input
               type="text"
-              value={personData.name}
-              onChange={(e) => setPersonData({...personData, name: e.target.value})}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              value={isPreviewMode ? previewData.name : personData.name}
+              onChange={(e) => !isPreviewMode && setPersonData({...personData, name: e.target.value})}
+              className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                isPreviewMode ? 'bg-gray-100 cursor-not-allowed' : ''
+              }`}
               placeholder="Ej: Carlos Carpio"
+              disabled={isPreviewMode}
             />
           </div>
 
@@ -121,9 +152,12 @@ export default function PinaculoCalculatorComplete({ className = '' }: PinaculoC
               type="number"
               min="1"
               max="31"
-              value={personData.day}
-              onChange={(e) => setPersonData({...personData, day: parseInt(e.target.value) || 1})}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              value={isPreviewMode ? previewData.day : personData.day}
+              onChange={(e) => !isPreviewMode && setPersonData({...personData, day: parseInt(e.target.value) || 1})}
+              className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                isPreviewMode ? 'bg-gray-100 cursor-not-allowed' : ''
+              }`}
+              disabled={isPreviewMode}
             />
           </div>
 
@@ -135,9 +169,12 @@ export default function PinaculoCalculatorComplete({ className = '' }: PinaculoC
               type="number"
               min="1"
               max="12"
-              value={personData.month}
-              onChange={(e) => setPersonData({...personData, month: parseInt(e.target.value) || 1})}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              value={isPreviewMode ? previewData.month : personData.month}
+              onChange={(e) => !isPreviewMode && setPersonData({...personData, month: parseInt(e.target.value) || 1})}
+              className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                isPreviewMode ? 'bg-gray-100 cursor-not-allowed' : ''
+              }`}
+              disabled={isPreviewMode}
             />
           </div>
 
@@ -149,20 +186,25 @@ export default function PinaculoCalculatorComplete({ className = '' }: PinaculoC
               type="number"
               min="1900"
               max="2030"
-              value={personData.year}
-              onChange={(e) => setPersonData({...personData, year: parseInt(e.target.value) || 1980})}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              value={isPreviewMode ? previewData.year : personData.year}
+              onChange={(e) => !isPreviewMode && setPersonData({...personData, year: parseInt(e.target.value) || 1980})}
+              className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                isPreviewMode ? 'bg-gray-100 cursor-not-allowed' : ''
+              }`}
+              disabled={isPreviewMode}
             />
           </div>
         </div>
 
-        <button
-          onClick={handleCalculate}
-          disabled={isCalculating}
-          className="mt-4 w-full bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50"
-        >
-          {isCalculating ? 'Calculando...' : 'Calcular Pináculo Completo'}
-        </button>
+        {!isPreviewMode && (
+          <button
+            onClick={() => handleCalculate(false)}
+            disabled={isCalculating}
+            className="mt-4 w-full bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50"
+          >
+            {isCalculating ? 'Calculando...' : 'Calcular Pináculo Completo'}
+          </button>
+        )}
       </div>
 
       {/* Results */}
@@ -171,10 +213,10 @@ export default function PinaculoCalculatorComplete({ className = '' }: PinaculoC
           {/* Summary */}
           <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg p-6 mb-6">
             <h2 className="text-2xl font-bold mb-2">
-              Pináculo de {personData.name}
+              Pináculo de {isPreviewMode ? previewData.name : personData.name}
             </h2>
             <p className="text-green-100 mb-4">
-              Fecha: {personData.day}/{personData.month}/{personData.year}
+              Fecha: {isPreviewMode ? `${previewData.day}/${previewData.month}/${previewData.year}` : `${personData.day}/${personData.month}/${personData.year}`}
             </p>
             
             {/* Master Numbers */}
