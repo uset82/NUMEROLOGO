@@ -337,14 +337,7 @@ export function NumerologyCalculator({ isPreviewMode = false, isDraggableMode = 
               />
             </div>
 
-            {/* Disclaimer */}
-            <div className="bg-gray-100 p-6 rounded-lg border border-gray-300">
-              <p className="text-gray-700 text-center">
-                <strong>Nota:</strong> Este mapa numerológico utiliza las fórmulas exactas del sistema del Pináculo,
-                basado en el análisis competitivo de numerologia-cotidiana.com. Los cálculos han sido verificados
-                para asegurar la máxima precisión.
-              </p>
-            </div>
+
           </div>
         )}
       </div>
