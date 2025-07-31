@@ -104,8 +104,8 @@ function PinaculoDiagram({ birthDay, birthMonth, birthYear, name }: PinaculoDiag
         <div className={`${size} ${color} rounded-full flex items-center justify-center cursor-pointer hover:opacity-90 transition-opacity shadow-lg border-2 border-gray-200`}>
           <span className={`${textColor} font-bold text-lg`}>{number}</span>
         </div>
-        <div className="text-xs font-bold mt-1 text-gray-700">{letter}</div>
-        <div className="text-xs text-gray-500 mt-0.5 text-center">{label}</div>
+        <div className="text-sm font-bold mt-1 text-gray-900 bg-white/90 px-2 py-1 rounded shadow-sm border mobile-label">{letter}</div>
+        <div className="text-xs text-gray-700 mt-0.5 text-center bg-white/80 px-1 rounded max-w-24 truncate shadow-sm">{label}</div>
       </div>
     )
 
@@ -115,8 +115,8 @@ function PinaculoDiagram({ birthDay, birthMonth, birthYear, name }: PinaculoDiag
     return (
       <div className="flex flex-col lg:flex-row gap-8 max-w-7xl mx-auto">
         {/* Main Pyramid Diagram - Exact pinnacle.png Layout */}
-        <div className="flex-1 flex justify-center">
-          <div className="relative" style={{ width: '700px', height: '600px' }}>
+        <div className="flex-1 flex justify-center overflow-x-auto">
+          <div className="relative min-w-max" style={{ width: '700px', height: '600px' }}>
             
             {/* TOP LEVEL - H (TU DESTINO) */}
             <div className="absolute" style={{ top: '0px', left: '50%', transform: 'translateX(-50%)' }}>

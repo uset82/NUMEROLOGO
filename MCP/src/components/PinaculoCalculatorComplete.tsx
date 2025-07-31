@@ -136,8 +136,8 @@ export default function PinaculoCalculatorComplete({ className = '', isPreviewMo
               type="text"
               value={isPreviewMode ? previewData.name : personData.name}
               onChange={(e) => !isPreviewMode && setPersonData({...personData, name: e.target.value})}
-              className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 ${
-                isPreviewMode ? 'bg-gray-100 cursor-not-allowed' : ''
+              className={`w-full px-3 py-2 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 font-medium ${
+                isPreviewMode ? 'bg-gray-100 cursor-not-allowed text-gray-700' : 'bg-white text-gray-900'
               }`}
               placeholder="Ej: Carlos Carpio"
               disabled={isPreviewMode}
@@ -154,8 +154,8 @@ export default function PinaculoCalculatorComplete({ className = '', isPreviewMo
               max="31"
               value={isPreviewMode ? previewData.day : personData.day}
               onChange={(e) => !isPreviewMode && setPersonData({...personData, day: parseInt(e.target.value) || 1})}
-              className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 ${
-                isPreviewMode ? 'bg-gray-100 cursor-not-allowed' : ''
+              className={`w-full px-3 py-2 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 font-medium ${
+                isPreviewMode ? 'bg-gray-100 cursor-not-allowed text-gray-700' : 'bg-white text-gray-900'
               }`}
               disabled={isPreviewMode}
             />
@@ -171,8 +171,8 @@ export default function PinaculoCalculatorComplete({ className = '', isPreviewMo
               max="12"
               value={isPreviewMode ? previewData.month : personData.month}
               onChange={(e) => !isPreviewMode && setPersonData({...personData, month: parseInt(e.target.value) || 1})}
-              className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 ${
-                isPreviewMode ? 'bg-gray-100 cursor-not-allowed' : ''
+              className={`w-full px-3 py-2 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 font-medium ${
+                isPreviewMode ? 'bg-gray-100 cursor-not-allowed text-gray-700' : 'bg-white text-gray-900'
               }`}
               disabled={isPreviewMode}
             />
@@ -188,8 +188,8 @@ export default function PinaculoCalculatorComplete({ className = '', isPreviewMo
               max="2030"
               value={isPreviewMode ? previewData.year : personData.year}
               onChange={(e) => !isPreviewMode && setPersonData({...personData, year: parseInt(e.target.value) || 1980})}
-              className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 ${
-                isPreviewMode ? 'bg-gray-100 cursor-not-allowed' : ''
+              className={`w-full px-3 py-2 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 font-medium ${
+                isPreviewMode ? 'bg-gray-100 cursor-not-allowed text-gray-700' : 'bg-white text-gray-900'
               }`}
               disabled={isPreviewMode}
             />

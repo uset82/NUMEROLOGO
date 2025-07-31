@@ -129,8 +129,8 @@ export function NumerologyCalculator({ isPreviewMode = false, isDraggableMode = 
                 value={isPreviewMode ? previewData.name : name}
                 onChange={(e) => !isPreviewMode && setName(e.target.value)}
                 placeholder="Ej: CARLOS CARPIO"
-                className={`w-full px-4 py-3 border border-purple-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg ${
-                  isPreviewMode ? 'bg-gray-100 cursor-not-allowed' : ''
+                className={`w-full px-4 py-3 border-2 border-purple-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg font-medium ${
+                  isPreviewMode ? 'bg-gray-100 cursor-not-allowed text-gray-700' : 'bg-white text-gray-900'
                 }`}
                 required
                 disabled={isPreviewMode}
@@ -152,8 +152,8 @@ export function NumerologyCalculator({ isPreviewMode = false, isDraggableMode = 
                 value={isPreviewMode ? previewData.birthDate : birthDate}
                 onChange={(e) => !isPreviewMode && setBirthDate(e.target.value)}
                 placeholder="06/05/1982"
-                className={`w-full px-4 py-3 border border-purple-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg ${
-                  isPreviewMode ? 'bg-gray-100 cursor-not-allowed' : ''
+                className={`w-full px-4 py-3 border-2 border-purple-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg font-medium ${
+                  isPreviewMode ? 'bg-gray-100 cursor-not-allowed text-gray-700' : 'bg-white text-gray-900'
                 }`}
                 required
                 disabled={isPreviewMode}

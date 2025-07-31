@@ -46,3 +46,42 @@ body {
 .agent-working {
   @apply bg-yellow-100 text-yellow-800;
 }
+
+/* Mobile input fixes for better visibility */
+@media (max-width: 768px) {
+  input[type="text"], 
+  input[type="number"] {
+    font-size: 16px !important; /* Prevents zoom on iOS */
+    background-color: white !important;
+    color: #1f2937 !important;
+    border: 2px solid #d1d5db !important;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  
+  input[type="text"]:focus,
+  input[type="number"]:focus {
+    border-color: #8b5cf6 !important;
+    outline: none !important;
+    background-color: white !important;
+  }
+  
+  input[type="text"]::placeholder,
+  input[type="number"]::placeholder {
+    color: #9ca3af !important;
+    opacity: 1 !important;
+  }
+  
+  .numerology-card {
+    @apply p-4 mx-2;
+  }
+  
+  /* Ensure letter labels are visible on mobile */
+  .mobile-label {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    color: #1f2937 !important;
+    font-weight: 700 !important;
+    padding: 2px 4px !important;
+    border-radius: 4px !important;
+  }
+}
