@@ -192,25 +192,13 @@ export function NumerologyCalculator({ isPreviewMode = false, isDraggableMode = 
         {result && (
           <div className="space-y-8">
             
-            {/* Resumen Principal */}
+            {/* Vibraciones del Nombre */}
             <div className="numerology-card">
               <h2 className="text-3xl font-bold text-purple-900 mb-6 text-center">
-                ✨ TU MAPA NUMEROLÓGICO PERSONAL ✨
+                ✨ VIBRACIONES DE TU NOMBRE ✨
               </h2>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div className="bg-gradient-to-br from-purple-100 to-purple-200 p-6 rounded-lg border-l-4 border-purple-600">
-                  <h3 className="text-xl font-bold text-purple-900 mb-2">🌟 MI ESENCIA</h3>
-                  <div className="text-4xl font-bold text-purple-700">{result.summary.esencia}</div>
-                  <p className="text-purple-600 mt-2">Tu verdadera naturaleza</p>
-                </div>
-                
-                <div className="bg-gradient-to-br from-indigo-100 to-indigo-200 p-6 rounded-lg border-l-4 border-indigo-600">
-                  <h3 className="text-xl font-bold text-indigo-900 mb-2">🎯 MI MISIÓN</h3>
-                  <div className="text-4xl font-bold text-indigo-700">{result.summary.mision}</div>
-                  <p className="text-indigo-600 mt-2">Tu propósito de vida</p>
-                </div>
-                
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="bg-gradient-to-br from-pink-100 to-pink-200 p-6 rounded-lg border-l-4 border-pink-600">
                   <h3 className="text-xl font-bold text-pink-900 mb-2">💝 MI ALMA</h3>
                   <div className="text-4xl font-bold text-pink-700">{result.summary.alma}</div>
@@ -228,19 +216,13 @@ export function NumerologyCalculator({ isPreviewMode = false, isDraggableMode = 
                   <div className="text-4xl font-bold text-orange-700">{result.summary.numeroPersonal}</div>
                   <p className="text-orange-600 mt-2">Energía de tu nombre</p>
                 </div>
-                
-                <div className="bg-gradient-to-br from-yellow-100 to-yellow-200 p-6 rounded-lg border-l-4 border-yellow-600">
-                  <h3 className="text-xl font-bold text-yellow-900 mb-2">🎁 REGALO DIVINO</h3>
-                  <div className="text-4xl font-bold text-yellow-700">{result.summary.regaloDivino}</div>
-                  <p className="text-yellow-600 mt-2">Tu don especial</p>
-                </div>
               </div>
             </div>
 
             {/* Números Base */}
             <div className="numerology-card">
               <h2 className="text-2xl font-bold text-purple-900 mb-6">🔢 NÚMEROS BASE DEL PINÁCULO</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="bg-blue-50 p-4 rounded-lg">
                   <h3 className="font-bold text-blue-900">A - TAREA NO APRENDIDA</h3>
                   <div className="text-3xl font-bold text-blue-700">{result.baseNumbers.A}</div>
@@ -256,6 +238,11 @@ export function NumerologyCalculator({ isPreviewMode = false, isDraggableMode = 
                   <div className="text-3xl font-bold text-purple-700">{result.baseNumbers.C}</div>
                   <p className="text-purple-600 text-sm">Influencias anteriores</p>
                 </div>
+                <div className="bg-orange-50 p-4 rounded-lg">
+                  <h3 className="font-bold text-orange-900">D - MI MÁSCARA</h3>
+                  <div className="text-3xl font-bold text-orange-700">{result.positiveNumbers.D}</div>
+                  <p className="text-orange-600 text-sm">Personalidad exterior</p>
+                </div>
               </div>
             </div>
 
@@ -263,9 +250,8 @@ export function NumerologyCalculator({ isPreviewMode = false, isDraggableMode = 
             <div className="numerology-card">
               <h2 className="text-2xl font-bold text-green-900 mb-6">✨ NÚMEROS POSITIVOS</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {Object.entries(result.positiveNumbers).map(([key, value]) => {
+                {Object.entries(result.positiveNumbers).filter(([key]) => key !== 'D' && key !== 'Z').map(([key, value]) => {
                   const labels: Record<string, string> = {
-                    D: 'MI MÁSCARA',
                     E: 'IMPLANTACIÓN DEL PROGRAMA',
                     F: 'ENCUENTRO CON TU MAESTRO',
                     G: 'RE-IDENTIFICACIÓN CON TU YO',
@@ -282,6 +268,12 @@ export function NumerologyCalculator({ isPreviewMode = false, isDraggableMode = 
                     </div>
                   )
                 })}
+                {/* Agregar Regalo Divino */}
+                <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                  <h3 className="font-bold text-yellow-900 text-sm">Z - REGALO DIVINO</h3>
+                  <div className="text-2xl font-bold text-yellow-700">{result.summary.regaloDivino}</div>
+                  <p className="text-yellow-600 text-xs mt-1">Tu don especial</p>
+                </div>
               </div>
             </div>
 

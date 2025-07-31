@@ -102,7 +102,7 @@ export default function Home() {
           </div>
         )}
 
-        {/* Debug info */}
+        {/* Debug info - updated */}
         <div className="mt-2 text-xs text-gray-500">
           Debug: isDraggableMode = {isDraggableMode.toString()}
         </div>
