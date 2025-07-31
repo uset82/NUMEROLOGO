@@ -219,9 +219,9 @@ export function NumerologyCalculator({ isPreviewMode = false, isDraggableMode = 
               </div>
             </div>
 
-            {/* Números Base */}
+            {/* Horizontal Numerológico */}
             <div className="numerology-card">
-              <h2 className="text-2xl font-bold text-purple-900 mb-6">🔢 NÚMEROS BASE DEL PINÁCULO</h2>
+              <h2 className="text-2xl font-bold text-purple-900 mb-6">🔢 HORIZONTAL NUMEROLÓGICO</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="bg-blue-50 p-4 rounded-lg">
                   <h3 className="font-bold text-blue-900">A - TAREA NO APRENDIDA</h3>
@@ -246,11 +246,11 @@ export function NumerologyCalculator({ isPreviewMode = false, isDraggableMode = 
               </div>
             </div>
 
-            {/* Números Positivos */}
+            {/* Talentos */}
             <div className="numerology-card">
-              <h2 className="text-2xl font-bold text-green-900 mb-6">✨ NÚMEROS POSITIVOS</h2>
+              <h2 className="text-2xl font-bold text-green-900 mb-6">✨ TALENTOS</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {Object.entries(result.positiveNumbers).filter(([key]) => key !== 'D' && key !== 'Z').map(([key, value]) => {
+                {Object.entries(result.positiveNumbers).filter(([key]) => key !== 'D').map(([key, value]) => {
                   const labels: Record<string, string> = {
                     E: 'IMPLANTACIÓN DEL PROGRAMA',
                     F: 'ENCUENTRO CON TU MAESTRO',
@@ -259,7 +259,8 @@ export function NumerologyCalculator({ isPreviewMode = false, isDraggableMode = 
                     I: 'INCONSCIENTE',
                     J: 'MI ESPEJO',
                     X: 'REACCIÓN',
-                    Y: 'MISIÓN'
+                    Y: 'MISIÓN',
+                    Z: 'REGALO DIVINO'
                   }
                   return (
                     <div key={key} className="bg-green-50 p-4 rounded-lg border border-green-200">
@@ -268,12 +269,6 @@ export function NumerologyCalculator({ isPreviewMode = false, isDraggableMode = 
                     </div>
                   )
                 })}
-                {/* Agregar Regalo Divino */}
-                <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-                  <h3 className="font-bold text-yellow-900 text-sm">Z - REGALO DIVINO</h3>
-                  <div className="text-2xl font-bold text-yellow-700">{result.summary.regaloDivino}</div>
-                  <p className="text-yellow-600 text-xs mt-1">Tu don especial</p>
-                </div>
               </div>
             </div>
 
@@ -300,6 +295,20 @@ export function NumerologyCalculator({ isPreviewMode = false, isDraggableMode = 
                     </div>
                   )
                 })}
+                {/* Agregar Triplicidad */}
+                <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                  <h3 className="font-bold text-purple-900 text-sm">W - TRIPLICIDAD</h3>
+                  <div className="text-2xl font-bold text-purple-700">{result.W}</div>
+                  <p className="text-purple-600 text-xs mt-1">Potenciación triple</p>
+                </div>
+                {/* Agregar Números Ausentes */}
+                <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                  <h3 className="font-bold text-gray-900 text-sm">T - NÚMEROS AUSENTES</h3>
+                  <div className="text-lg font-bold text-gray-700">
+                    {Array.isArray(result.positiveNumbers.T) ? result.positiveNumbers.T.join(', ') : result.positiveNumbers.T || 'Ninguno'}
+                  </div>
+                  <p className="text-gray-600 text-xs mt-1">Números faltantes</p>
+                </div>
               </div>
             </div>
 
