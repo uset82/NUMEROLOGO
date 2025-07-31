@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { NumerologyCalculator } from '@/components/NumerologyCalculator'
-import PinaculoCalculatorComplete from '@/components/PinaculoCalculatorComplete'
 import { DraggableContainer } from '@/components/DraggableContainer'
 import { useClientOnly } from '@/utils/clientOnly'
 
@@ -135,22 +134,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* Complete Pináculo Calculator */}
-      {isDraggableMode ? (
-        <DraggableContainer 
-          title="🎭 Sistema Completo del Pináculo"
-          initialPosition={{ x: 700, y: 150 }}
-          className="w-[800px]"
-        >
-          <div className="p-6">
-            <PinaculoCalculatorComplete isPreviewMode={isPreviewMode} />
-          </div>
-        </DraggableContainer>
-      ) : (
-        <div className="max-w-7xl mx-auto px-4 pb-16">
-          <PinaculoCalculatorComplete isPreviewMode={isPreviewMode} />
-        </div>
-      )}
+
 
       {/* Draggable Mode Instructions */}
       {isDraggableMode && (
