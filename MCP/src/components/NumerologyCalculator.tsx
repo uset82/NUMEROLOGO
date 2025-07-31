@@ -312,17 +312,7 @@ export function NumerologyCalculator({ isPreviewMode = false, isDraggableMode = 
               </div>
             </div>
 
-            {/* Interpretaciones Detalladas */}
-            <div className="numerology-card">
-              <h2 className="text-2xl font-bold text-purple-900 mb-6">📖 INTERPRETACIONES DETALLADAS</h2>
-              <div className="space-y-4">
-                {Object.entries(result.interpretations).map(([key, interpretation]) => (
-                  <div key={key} className="bg-gradient-to-r from-purple-50 to-indigo-50 p-4 rounded-lg border-l-4 border-purple-500">
-                    <p className="text-purple-800">{interpretation}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+
 
             {/* Pináculo Diagram Visualization */}
             <div className="numerology-card">
