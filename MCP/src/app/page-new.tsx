@@ -139,7 +139,7 @@ export default function Home() {
           </div>
         </DraggableContainer>
       ) : (
-        <div className="max-w-7xl mx-auto px-4 pb-16">
+        <div className="max-w-7xl mx-auto px-4 pb-32">
           <PinaculoCalculatorComplete isPreviewMode={isPreviewMode} />
         </div>
       )}

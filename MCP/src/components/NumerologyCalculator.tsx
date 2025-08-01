@@ -98,12 +98,12 @@ export function NumerologyCalculator({ isPreviewMode = false, isDraggableMode = 
         {/* Header */}
         {!isDraggableMode && (
           <div className="text-center mb-12">
-            <h1 className="text-5xl font-bold text-purple-900 mb-4">
-              🔮 MI MAPA NUMEROLÓGICO
-            </h1>
-            <p className="text-xl text-purple-700">
-              Sistema del Pináculo - Cálculos Exactos
-            </p>
+                         <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-purple-900 mb-4 text-center px-2">
+               🔮 MI MAPA NUMEROLÓGICO
+             </h1>
+                         <p className="text-lg md:text-xl text-purple-700 text-center px-2">
+               Sistema del Pináculo - Cálculos Exactos
+             </p>
           </div>
         )}
 
@@ -129,9 +129,14 @@ export function NumerologyCalculator({ isPreviewMode = false, isDraggableMode = 
                 value={isPreviewMode ? previewData.name : name}
                 onChange={(e) => !isPreviewMode && setName(e.target.value)}
                 placeholder="Ej: CARLOS CARPIO"
-                className={`w-full px-4 py-3 border-2 border-purple-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg font-medium ${
-                  isPreviewMode ? 'bg-gray-100 cursor-not-allowed text-gray-700' : 'bg-white text-gray-900'
+                className={`w-full px-4 py-3 border-2 border-purple-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg font-medium bg-white text-black ${
+                  isPreviewMode ? 'bg-gray-100 cursor-not-allowed text-gray-700' : ''
                 }`}
+                style={{
+                  backgroundColor: isPreviewMode ? '#f3f4f6' : '#ffffff',
+                  color: isPreviewMode ? '#374151' : '#000000',
+                  WebkitTextFillColor: isPreviewMode ? '#374151' : '#000000'
+                }}
                 required
                 disabled={isPreviewMode}
               />
@@ -152,9 +157,14 @@ export function NumerologyCalculator({ isPreviewMode = false, isDraggableMode = 
                 value={isPreviewMode ? previewData.birthDate : birthDate}
                 onChange={(e) => !isPreviewMode && setBirthDate(e.target.value)}
                 placeholder="06/05/1982"
-                className={`w-full px-4 py-3 border-2 border-purple-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg font-medium ${
-                  isPreviewMode ? 'bg-gray-100 cursor-not-allowed text-gray-700' : 'bg-white text-gray-900'
+                className={`w-full px-4 py-3 border-2 border-purple-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg font-medium bg-white text-black ${
+                  isPreviewMode ? 'bg-gray-100 cursor-not-allowed text-gray-700' : ''
                 }`}
+                style={{
+                  backgroundColor: isPreviewMode ? '#f3f4f6' : '#ffffff',
+                  color: isPreviewMode ? '#374151' : '#000000',
+                  WebkitTextFillColor: isPreviewMode ? '#374151' : '#000000'
+                }}
                 required
                 disabled={isPreviewMode}
               />
@@ -201,20 +211,20 @@ export function NumerologyCalculator({ isPreviewMode = false, isDraggableMode = 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="bg-gradient-to-br from-pink-100 to-pink-200 p-6 rounded-lg border-l-4 border-pink-600">
                   <h3 className="text-xl font-bold text-pink-900 mb-2">💝 MI ALMA</h3>
-                  <div className="text-4xl font-bold text-pink-700">{result.summary.alma}</div>
-                  <p className="text-pink-600 mt-2">Tus deseos más profundos</p>
+                                     <div className="text-4xl font-bold text-pink-700" style={{ color: '#be185d', fontWeight: '900', textShadow: '2px 2px 4px rgba(0,0,0,0.3)', backgroundColor: 'rgba(255,255,255,0.95)', padding: '4px 8px', borderRadius: '4px', display: 'inline-block' }}>{result.summary.alma}</div>
+                   <p className="text-pink-600 mt-2" style={{ color: '#000000', fontWeight: '700', textShadow: '1px 1px 2px rgba(255,255,255,0.8)', backgroundColor: 'rgba(255,255,255,0.95)', padding: '3px 6px', borderRadius: '3px', display: 'inline-block' }}>Tus deseos más profundos</p>
                 </div>
                 
                 <div className="bg-gradient-to-br from-emerald-100 to-emerald-200 p-6 rounded-lg border-l-4 border-emerald-600">
                   <h3 className="text-xl font-bold text-emerald-900 mb-2">🎭 MI EXPRESIÓN</h3>
-                  <div className="text-4xl font-bold text-emerald-700">{result.summary.personalidad}</div>
-                  <p className="text-emerald-600 mt-2">Cómo te expresas</p>
+                                     <div className="text-4xl font-bold text-emerald-700" style={{ color: '#047857', fontWeight: '900', textShadow: '2px 2px 4px rgba(0,0,0,0.3)', backgroundColor: 'rgba(255,255,255,0.95)', padding: '4px 8px', borderRadius: '4px', display: 'inline-block' }}>{result.summary.personalidad}</div>
+                   <p className="text-emerald-600 mt-2" style={{ color: '#000000', fontWeight: '700', textShadow: '1px 1px 2px rgba(255,255,255,0.8)', backgroundColor: 'rgba(255,255,255,0.95)', padding: '3px 6px', borderRadius: '3px', display: 'inline-block' }}>Cómo te expresas</p>
                 </div>
                 
                 <div className="bg-gradient-to-br from-orange-100 to-orange-200 p-6 rounded-lg border-l-4 border-orange-600">
                   <h3 className="text-xl font-bold text-orange-900 mb-2">⭐ PODER DEL NOMBRE</h3>
-                  <div className="text-4xl font-bold text-orange-700">{result.summary.numeroPersonal}</div>
-                  <p className="text-orange-600 mt-2">Fuerza vibracional total</p>
+                                     <div className="text-4xl font-bold text-orange-700" style={{ color: '#c2410c', fontWeight: '900', textShadow: '2px 2px 4px rgba(0,0,0,0.3)', backgroundColor: 'rgba(255,255,255,0.95)', padding: '4px 8px', borderRadius: '4px', display: 'inline-block' }}>{result.summary.numeroPersonal}</div>
+                   <p className="text-orange-600 mt-2" style={{ color: '#000000', fontWeight: '700', textShadow: '1px 1px 2px rgba(255,255,255,0.8)', backgroundColor: 'rgba(255,255,255,0.95)', padding: '3px 6px', borderRadius: '3px', display: 'inline-block' }}>Fuerza vibracional total</p>
                 </div>
               </div>
             </div>
@@ -225,23 +235,23 @@ export function NumerologyCalculator({ isPreviewMode = false, isDraggableMode = 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="bg-blue-50 p-4 rounded-lg">
                   <h3 className="font-bold text-blue-900">A - TAREA NO APRENDIDA</h3>
-                  <div className="text-3xl font-bold text-blue-700">{result.baseNumbers.A}</div>
-                  <p className="text-blue-600 text-sm">Lecciones pendientes</p>
+                                     <div className="text-3xl font-bold text-blue-700" style={{ color: '#1e3a8a', fontWeight: '900', textShadow: '2px 2px 4px rgba(0,0,0,0.3)', backgroundColor: 'rgba(255,255,255,0.95)', padding: '4px 8px', borderRadius: '4px', display: 'inline-block' }}>{result.baseNumbers.A}</div>
+                   <p className="text-blue-800 text-sm font-medium" style={{ color: '#000000', fontWeight: '700', textShadow: '1px 1px 2px rgba(255,255,255,0.8)', backgroundColor: 'rgba(255,255,255,0.95)', padding: '3px 6px', borderRadius: '3px', display: 'inline-block' }}>Lecciones pendientes</p>
                 </div>
                 <div className="bg-green-50 p-4 rounded-lg">
                   <h3 className="font-bold text-green-900">B - MI ESENCIA</h3>
-                  <div className="text-3xl font-bold text-green-700">{result.baseNumbers.B}</div>
-                  <p className="text-green-600 text-sm">Tu verdadera naturaleza</p>
+                                     <div className="text-3xl font-bold text-green-700" style={{ color: '#047857', fontWeight: '900', textShadow: '2px 2px 4px rgba(0,0,0,0.3)', backgroundColor: 'rgba(255,255,255,0.95)', padding: '4px 8px', borderRadius: '4px', display: 'inline-block' }}>{result.baseNumbers.B}</div>
+                   <p className="text-green-800 text-sm font-medium" style={{ color: '#000000', fontWeight: '700', textShadow: '1px 1px 2px rgba(255,255,255,0.8)', backgroundColor: 'rgba(255,255,255,0.95)', padding: '3px 6px', borderRadius: '3px', display: 'inline-block' }}>Tu verdadera naturaleza</p>
                 </div>
                 <div className="bg-purple-50 p-4 rounded-lg">
                   <h3 className="font-bold text-purple-900">C - MI VIDA PASADA</h3>
-                  <div className="text-3xl font-bold text-purple-700">{result.baseNumbers.C}</div>
-                  <p className="text-purple-600 text-sm">Influencias anteriores</p>
+                                     <div className="text-3xl font-bold text-purple-700" style={{ color: '#6b21a8', fontWeight: '900', textShadow: '2px 2px 4px rgba(0,0,0,0.3)', backgroundColor: 'rgba(255,255,255,0.95)', padding: '4px 8px', borderRadius: '4px', display: 'inline-block' }}>{result.baseNumbers.C}</div>
+                   <p className="text-purple-800 text-sm font-medium" style={{ color: '#000000', fontWeight: '700', textShadow: '1px 1px 2px rgba(255,255,255,0.8)', backgroundColor: 'rgba(255,255,255,0.95)', padding: '3px 6px', borderRadius: '3px', display: 'inline-block' }}>Influencias anteriores</p>
                 </div>
                 <div className="bg-orange-50 p-4 rounded-lg">
                   <h3 className="font-bold text-orange-900">D - MI MÁSCARA</h3>
-                  <div className="text-3xl font-bold text-orange-700">{result.positiveNumbers.D}</div>
-                  <p className="text-orange-600 text-sm">Personalidad exterior</p>
+                                     <div className="text-3xl font-bold text-orange-700" style={{ color: '#c2410c', fontWeight: '900', textShadow: '2px 2px 4px rgba(0,0,0,0.3)', backgroundColor: 'rgba(255,255,255,0.95)', padding: '4px 8px', borderRadius: '4px', display: 'inline-block' }}>{result.positiveNumbers.D}</div>
+                   <p className="text-orange-800 text-sm font-medium" style={{ color: '#000000', fontWeight: '700', textShadow: '1px 1px 2px rgba(255,255,255,0.8)', backgroundColor: 'rgba(255,255,255,0.95)', padding: '3px 6px', borderRadius: '3px', display: 'inline-block' }}>Personalidad exterior</p>
                 </div>
               </div>
             </div>
@@ -265,16 +275,17 @@ export function NumerologyCalculator({ isPreviewMode = false, isDraggableMode = 
                   return (
                     <div key={key} className="bg-green-50 p-4 rounded-lg border border-green-200">
                       <h3 className="font-bold text-green-900 text-sm">{key} - {labels[key]}</h3>
-                      <div className="text-2xl font-bold text-green-700">{value}</div>
+                                             <div className="text-2xl font-bold text-green-700" style={{ color: '#047857', fontWeight: '900', textShadow: '2px 2px 4px rgba(0,0,0,0.3)', backgroundColor: 'rgba(255,255,255,0.95)', padding: '4px 8px', borderRadius: '4px', display: 'inline-block' }}>{value}</div>
+                       <p className="text-green-800 text-xs font-medium mt-1" style={{ color: '#000000', fontWeight: '700', textShadow: '1px 1px 2px rgba(255,255,255,0.8)', backgroundColor: 'rgba(255,255,255,0.95)', padding: '3px 6px', borderRadius: '3px', display: 'inline-block' }}>Descripción del talento</p>
                     </div>
                   )
                 })}
               </div>
             </div>
 
-            {/* Números Negativos */}
+            {/* Desafíos o Retos */}
             <div className="numerology-card">
-              <h2 className="text-2xl font-bold text-red-900 mb-6">⚠️ NÚMEROS NEGATIVOS (Áreas de Trabajo)</h2>
+              <h2 className="text-2xl font-bold text-red-900 mb-6">⚠️ DESAFÍOS O RETOS</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {Object.entries(result.negativeNumbers).map(([key, value]) => {
                   const labels: Record<string, string> = {
@@ -291,23 +302,24 @@ export function NumerologyCalculator({ isPreviewMode = false, isDraggableMode = 
                   return (
                     <div key={key} className="bg-red-50 p-4 rounded-lg border border-red-200">
                       <h3 className="font-bold text-red-900 text-sm">{key} - {labels[key]}</h3>
-                      <div className="text-2xl font-bold text-red-700">{value}</div>
+                                             <div className="text-2xl font-bold text-red-700" style={{ color: '#b91c1c', fontWeight: '900', textShadow: '2px 2px 4px rgba(0,0,0,0.3)', backgroundColor: 'rgba(255,255,255,0.95)', padding: '4px 8px', borderRadius: '4px', display: 'inline-block' }}>{value}</div>
+                       <p className="text-red-800 text-xs font-medium mt-1" style={{ color: '#000000', fontWeight: '700', textShadow: '1px 1px 2px rgba(255,255,255,0.8)', backgroundColor: 'rgba(255,255,255,0.95)', padding: '3px 6px', borderRadius: '3px', display: 'inline-block' }}>Desafío a superar</p>
                     </div>
                   )
                 })}
                 {/* Agregar Triplicidad */}
                 <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
                   <h3 className="font-bold text-purple-900 text-sm">W - TRIPLICIDAD</h3>
-                  <div className="text-2xl font-bold text-purple-700">{result.W}</div>
-                  <p className="text-purple-600 text-xs mt-1">Potenciación triple</p>
+                                     <div className="text-2xl font-bold text-purple-700" style={{ color: '#6b21a8', fontWeight: '900', textShadow: '2px 2px 4px rgba(0,0,0,0.3)', backgroundColor: 'rgba(255,255,255,0.95)', padding: '4px 8px', borderRadius: '4px', display: 'inline-block' }}>{result.W}</div>
+                   <p className="text-purple-800 text-xs font-medium mt-1" style={{ color: '#000000', fontWeight: '700', textShadow: '1px 1px 2px rgba(255,255,255,0.8)', backgroundColor: 'rgba(255,255,255,0.95)', padding: '3px 6px', borderRadius: '3px', display: 'inline-block' }}>Potenciación triple</p>
                 </div>
                 {/* Agregar Números Ausentes */}
                 <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
                   <h3 className="font-bold text-gray-900 text-sm">T - NÚMEROS AUSENTES</h3>
-                  <div className="text-lg font-bold text-gray-700">
-                    {Array.isArray(result.positiveNumbers.T) ? result.positiveNumbers.T.join(', ') : result.positiveNumbers.T || 'Ninguno'}
-                  </div>
-                  <p className="text-gray-600 text-xs mt-1">Números faltantes</p>
+                                     <div className="text-lg font-bold text-gray-700" style={{ color: '#374151', fontWeight: '900', textShadow: '2px 2px 4px rgba(0,0,0,0.3)', backgroundColor: 'rgba(255,255,255,0.95)', padding: '4px 8px', borderRadius: '4px', display: 'inline-block' }}>
+                     {Array.isArray(result.positiveNumbers.T) ? result.positiveNumbers.T.join(', ') : result.positiveNumbers.T || 'Ninguno'}
+                   </div>
+                   <p className="text-gray-800 text-xs font-medium mt-1" style={{ color: '#000000', fontWeight: '700', textShadow: '1px 1px 2px rgba(255,255,255,0.8)', backgroundColor: 'rgba(255,255,255,0.95)', padding: '3px 6px', borderRadius: '3px', display: 'inline-block' }}>Números faltantes</p>
                 </div>
               </div>
             </div>
@@ -316,10 +328,6 @@ export function NumerologyCalculator({ isPreviewMode = false, isDraggableMode = 
 
             {/* Pináculo Diagram Visualization */}
             <div className="numerology-card">
-              <h2 className="text-2xl font-bold text-purple-900 mb-6">🎭 DIAGRAMA DEL PINÁCULO</h2>
-              <p className="text-gray-600 mb-4">
-                Visualización interactiva de tu mapa numerológico basado en tu fecha de nacimiento.
-              </p>
               <PinaculoDiagram 
                 birthDay={parseInt((isPreviewMode ? previewData.birthDate : birthDate).split('/')[0])}
                 birthMonth={parseInt((isPreviewMode ? previewData.birthDate : birthDate).split('/')[1])}

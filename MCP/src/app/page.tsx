@@ -1,6 +1,7 @@
 'use client'
 
 import { NumerologyCalculator } from '@/components/NumerologyCalculator'
+import PinaculoCalculatorComplete from '@/components/PinaculoCalculatorComplete'
 import { useClientOnly } from '@/utils/clientOnly'
 
 export default function Home() {
@@ -29,15 +30,11 @@ export default function Home() {
           Desbloquea los significados ocultos en tu nombre y fecha de nacimiento a través de la sabiduría ancestral de la numerología. 
           Obtén conocimientos personalizados sobre tu personalidad, camino de vida y destino con nuestro avanzado sistema del Pináculo.
         </p>
-
-
       </div>
 
-      {/* Main Calculator */}
-      <div className="max-w-2xl mx-auto px-4 pb-8">
-        <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8">
-          <NumerologyCalculator isPreviewMode={false} />
-        </div>
+      {/* Main Calculator with 7 Big Boxes */}
+      <div className="max-w-7xl mx-auto px-4 pb-32">
+        <PinaculoCalculatorComplete isPreviewMode={false} />
       </div>
 
 
