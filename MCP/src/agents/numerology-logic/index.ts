@@ -46,6 +46,9 @@ export interface NumerologyReport {
   // Triplicidad
   W: number; // TRIPLICIDAD
   
+  // Números ausentes
+  T: number | number[]; // NÚMEROS AUSENTES (números del 1-9 que no aparecen)
+  
   // Números del nombre (Sistema Caldeo)
   nameNumbers: {
     alma: number; // ALMA (Vocales)
@@ -170,6 +173,25 @@ export class NumerologyLogicAgent {
       // REGALO DIVINO (Z)
       const Z = this.reduceToSingleDigit(parseInt(year.toString().slice(-2)));
 
+      // Calculate T (números ausentes)
+      const allNumbers = [A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, W, X, Y, Z];
+      const occurrences = new Array(10).fill(0);
+      
+      allNumbers.forEach(num => {
+        if (num >= 0 && num <= 9) {
+          occurrences[num]++;
+        }
+      });
+      
+      const absent = [];
+      for (let i = 1; i <= 9; i++) {
+        if (occurrences[i] === 0) {
+          absent.push(i);
+        }
+      }
+      
+      const T = absent.length === 1 ? absent[0] : absent;
+
       // Build interpretations
       const interpretations = this.buildInterpretations({
         A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, W,
@@ -186,6 +208,7 @@ export class NumerologyLogicAgent {
         positiveNumbers: { D, E, F, G, H, I, J, X, Y, Z },
         negativeNumbers: { K, L, M, N, O, P, Q, R, S },
         W,
+        T,
         nameNumbers: {
           alma: almaNumber,
           personality: personalityNumber,

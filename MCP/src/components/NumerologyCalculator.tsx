@@ -317,7 +317,7 @@ export function NumerologyCalculator({ isPreviewMode = false, isDraggableMode = 
                 <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
                   <h3 className="font-bold text-gray-900 text-sm">T - NÚMEROS AUSENTES</h3>
                                      <div className="text-lg font-bold text-gray-700" style={{ color: '#374151', fontWeight: '900', textShadow: '2px 2px 4px rgba(0,0,0,0.3)', backgroundColor: 'rgba(255,255,255,0.95)', padding: '4px 8px', borderRadius: '4px', display: 'inline-block' }}>
-                     {Array.isArray(result.positiveNumbers.T) ? result.positiveNumbers.T.join(', ') : result.positiveNumbers.T || 'Ninguno'}
+                     {Array.isArray(result.T) ? result.T.join(', ') : result.T || 'Ninguno'}
                    </div>
                    <p className="text-gray-800 text-xs font-medium mt-1" style={{ color: '#000000', fontWeight: '700', textShadow: '1px 1px 2px rgba(255,255,255,0.8)', backgroundColor: 'rgba(255,255,255,0.95)', padding: '3px 6px', borderRadius: '3px', display: 'inline-block' }}>Números faltantes</p>
                 </div>

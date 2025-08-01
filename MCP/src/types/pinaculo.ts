@@ -171,8 +171,9 @@ export class PinaculoCalculator {
   static calculateNameNumber(name: string): number {
     let sum = 0;
     for (let char of name.replace(/\s+/g, '')) {
-      if (this.caldeo[char.toUpperCase()]) {
-        sum += this.caldeo[char.toUpperCase()];
+      const upperChar = char.toUpperCase();
+      if (this.caldeo[upperChar as keyof typeof this.caldeo]) {
+        sum += this.caldeo[upperChar as keyof typeof this.caldeo];
       }
     }
     return this.reduceNumber(sum);
